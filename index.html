@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0E2A47">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="1001 Companion">
+<title>Course 1001 Companion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0E2A47; --navy-deep:#0A1F36;
+  --sand:#D9D6C8; --sand-2:#E7E5DB; --paper:#FCFBF7;
+  --gold:#E0A52E; --gold-deep:#B07F1A; --gold-soft:#F6EBD2;
+  --ink:#1C2733; --mute:#5E6B78; --line:#C7C3B3; --line-soft:#DAD7CA;
+  --ok:#2E7D4F; --alert:#C0492F;
+  --radius:12px; --shadow:0 1px 2px rgba(14,42,71,.08),0 6px 18px rgba(14,42,71,.08); --fs:1;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{font-size:calc(16px * var(--fs))}
+body{font-family:'Public Sans',system-ui,sans-serif;background:var(--sand);color:var(--ink);
+  min-height:100vh;min-height:100dvh;padding-bottom:86px;line-height:1.5}
+body.readable{letter-spacing:.012em;line-height:1.65}
+body.readable p,body.readable li{font-size:1.04em}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;touch-action:manipulation}
+a{color:var(--navy)}
+
+.topbar{position:sticky;top:0;z-index:50;background:var(--navy);color:#fff;
+  padding:calc(env(safe-area-inset-top,0px) + 11px) 14px 11px;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  box-shadow:0 2px 10px rgba(10,31,54,.3)}
+.brand{display:flex;flex-direction:column;line-height:1.05;min-width:0}
+.brand .c{font-family:'Bricolage Grotesque';font-weight:800;font-size:1.05rem;letter-spacing:.01em;white-space:nowrap}
+.brand .c b{color:var(--gold)}
+.brand .s{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:#A9C0DA;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.ctrls{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.lang{display:flex;border:1.4px solid #3C597B;border-radius:999px;overflow:hidden}
+.lang button{padding:6px 11px;font-weight:700;font-size:.78rem;color:#cfe0f1;background:transparent;line-height:1}
+.lang button.on{background:var(--gold);color:var(--navy-deep)}
+.aa{display:flex;gap:4px}
+.aa button{border:1.4px solid #3C597B;border-radius:7px;background:transparent;color:#cfe0f1;padding:6px 8px;font-weight:700;font-size:.72rem;line-height:1}
+.aa button.on{background:var(--gold);color:var(--navy-deep);border-color:var(--gold)}
+
+.view{display:none;max-width:680px;margin:0 auto;padding:16px 16px 26px}
+.view.active{display:block;animation:fade .3s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.band{background:var(--navy);color:#fff;border-radius:10px;padding:14px 18px;margin-bottom:8px;
+  display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.band h2{font-family:'Bricolage Grotesque';font-weight:700;font-size:1.4rem;letter-spacing:.01em}
+.band .meta{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
+.lede{color:var(--mute);font-size:.94rem;margin:4px 2px 14px;line-height:1.5}
+
+.dayseg{display:flex;border:1.5px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:16px;background:var(--sand-2)}
+.dayseg button{flex:1;padding:11px;font-family:'Bricolage Grotesque';font-weight:700;font-size:.98rem;color:var(--mute);letter-spacing:.02em}
+.dayseg button.on{background:var(--navy);color:#fff}
+
+.flow{display:flex;flex-direction:column;gap:11px}
+.step{background:var(--paper);border:1.5px solid var(--line-soft);border-radius:var(--radius);box-shadow:var(--shadow);
+  padding:14px 15px;display:flex;align-items:center;gap:14px;text-align:left;width:100%;transition:border-color .14s,transform .08s}
+.step:hover{border-color:var(--gold)}
+.step:active{transform:scale(.99)}
+.step .seq{font-family:'Bricolage Grotesque';font-weight:800;font-size:1.05rem;color:var(--navy);background:var(--gold-soft);
+  border:1.5px solid var(--gold);border-radius:9px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step .mid{flex:1;min-width:0}
+.step .mid .t{font-family:'Bricolage Grotesque';font-weight:700;font-size:1.04rem;color:var(--ink);line-height:1.2}
+.step .mid .d{font-size:.83rem;color:var(--mute);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.step .go{color:var(--gold-deep);font-size:1.1rem;flex-shrink:0}
+.step .sl{font-family:'Bricolage Grotesque';font-weight:700;font-size:.66rem;letter-spacing:.02em;color:var(--gold-deep);
+  background:var(--gold-soft);border:1px solid #E8D6A8;border-radius:6px;padding:3px 7px;white-space:nowrap;flex-shrink:0}
+
+.backbtn{display:inline-flex;align-items:center;gap:6px;font-weight:600;color:var(--navy);font-size:.92rem;padding:8px 4px;margin-bottom:6px}
+.dhead{position:relative;background:var(--navy);color:#fff;border-radius:12px;padding:18px 56px 16px 18px;margin-bottom:16px}
+.dhead .k{font-family:'Bricolage Grotesque';font-weight:700;font-size:.76rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.dhead h3{font-family:'Bricolage Grotesque';font-weight:800;font-size:1.45rem;line-height:1.08;margin-top:3px}
+.dhead .say{position:absolute;top:14px;right:14px;border:1.4px solid #3C597B;border-radius:9px;background:transparent;
+  width:40px;height:40px;font-size:1.1rem;display:flex;align-items:center;justify-content:center;color:#cfe0f1}
+.dhead .say.on{background:var(--gold);color:var(--navy-deep);border-color:var(--gold)}
+.dhead .sl{display:inline-block;margin-left:8px;font-size:.68rem;letter-spacing:.06em;color:#cfe0f1;
+  border:1.4px solid #3C597B;border-radius:6px;padding:2px 7px;vertical-align:middle}
+
+.chunk{background:var(--paper);border:1.5px solid var(--line-soft);border-left:4px solid var(--gold);border-radius:10px;
+  box-shadow:var(--shadow);padding:14px 16px;margin-bottom:12px}
+.chunk h4{font-family:'Bricolage Grotesque';font-weight:700;font-size:1.04rem;color:var(--navy);margin-bottom:7px}
+.chunk p{font-size:.94rem;color:var(--ink);margin-bottom:6px}
+.chunk ul{list-style:none;margin:4px 0 2px}
+.chunk li{font-size:.93rem;color:var(--ink);line-height:1.5;padding-left:20px;position:relative;margin-bottom:5px}
+.chunk li::before{content:"";position:absolute;left:3px;top:.55em;width:7px;height:7px;border-radius:2px;background:var(--gold);transform:rotate(45deg)}
+.note{background:var(--gold-soft);border:1px solid #E8D6A8;border-radius:9px;padding:11px 13px;font-size:.88rem;color:#6B5212;line-height:1.5;margin-bottom:12px}
+.note b{color:#5A4410}
+
+.teach{background:var(--paper);border:1.5px solid var(--line-soft);border-radius:12px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:12px}
+.teachrow{display:flex;align-items:stretch;border-top:1.5px solid var(--line-soft)}
+.teachrow:first-child{border-top:none}
+.teachrow .ltr{font-family:'Bricolage Grotesque';font-weight:800;font-size:1.9rem;color:#fff;background:var(--navy);width:54px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.teachrow .body{padding:11px 14px}
+.teachrow .body .w{font-family:'Bricolage Grotesque';font-weight:700;color:var(--gold-deep);font-size:1rem}
+.teachrow .body .x{font-size:.9rem;color:var(--ink);margin-top:1px;line-height:1.45}
+
+.dcard{background:var(--paper);border:1.5px solid var(--line-soft);border-radius:12px;box-shadow:var(--shadow);padding:16px;margin-bottom:13px;border-top:4px solid var(--navy)}
+.dcard .tag{font-family:'Bricolage Grotesque';font-weight:700;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-deep)}
+.dcard h3{font-family:'Bricolage Grotesque';font-weight:800;font-size:1.22rem;color:var(--navy);margin:2px 0 8px}
+.dcard ul{list-style:none}
+.dcard li{font-size:.93rem;color:var(--ink);line-height:1.5;padding-left:20px;position:relative;margin-bottom:6px}
+.dcard li::before{content:"";position:absolute;left:3px;top:.55em;width:7px;height:7px;border-radius:2px;background:var(--gold);transform:rotate(45deg)}
+.gradedon{margin-top:10px;background:var(--sand-2);border:1px solid var(--line);border-radius:9px;padding:10px 12px}
+.gradedon .gl{font-family:'Bricolage Grotesque';font-weight:700;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-bottom:4px}
+.gradedon .gi{font-size:.86rem;color:var(--ink);display:inline-block;margin-right:4px}
+.tmpl{margin-top:10px;border:1.5px solid var(--line);border-radius:9px;overflow:hidden}
+.tmpl .row{display:grid;grid-template-columns:42% 58%;border-top:1px solid var(--line-soft);font-size:.85rem}
+.tmpl .row:first-child{border-top:none}
+.tmpl .row .l{background:var(--sand-2);padding:8px 10px;font-weight:600;color:var(--navy);text-align:right}
+.tmpl .row .r{padding:8px 10px;color:var(--mute)}
+
+.ladder{background:var(--paper);border:1.5px solid var(--line-soft);border-radius:12px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:12px}
+.rung{display:flex;gap:12px;padding:13px 15px;border-top:1.5px solid var(--line-soft);align-items:baseline}
+.rung:first-child{border-top:none}
+.rung .no{font-family:'Bricolage Grotesque';font-weight:800;color:var(--gold-deep);font-size:1rem;flex-shrink:0;width:42px}
+.rung .txt .t{font-family:'Bricolage Grotesque';font-weight:700;color:var(--navy)}
+.rung .txt .d{font-size:.9rem;color:var(--mute);margin-top:1px}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:12px}
+@media(max-width:480px){.duo{grid-template-columns:1fr}}
+.minicard{background:var(--paper);border:1.5px solid var(--line-soft);border-radius:11px;box-shadow:var(--shadow);padding:14px}
+.minicard .h{font-family:'Bricolage Grotesque';font-weight:700;color:var(--navy);font-size:1rem;margin-bottom:5px}
+.minicard p{font-size:.9rem;color:var(--ink);line-height:1.45}
+
+.vsearch{width:100%;padding:12px 14px;font-size:1rem;font-family:inherit;border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);margin-bottom:12px}
+.vsearch:focus{outline:2px solid var(--gold);outline-offset:1px;border-color:var(--gold)}
+.vrow{display:grid;grid-template-columns:1fr 1fr;gap:10px;background:var(--paper);border:1.5px solid var(--line-soft);border-radius:9px;padding:10px 14px;margin-bottom:8px;box-shadow:var(--shadow)}
+.vrow .cat{grid-column:1/-1;font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--gold-deep);font-weight:700}
+.vrow .en{font-weight:700;color:var(--navy)}
+.vrow .es{color:var(--ink)}
+
+.fcard{background:var(--paper);border:1.5px solid var(--line-soft);border-radius:12px;box-shadow:var(--shadow);padding:18px 16px}
+.fcard label{display:block;font-family:'Bricolage Grotesque';font-weight:700;font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;color:var(--navy);margin:15px 0 6px}
+.fcard label:first-child{margin-top:0}
+.fcard input[type=text],.fcard textarea,.fcard select{width:100%;padding:12px;font-size:1rem;font-family:inherit;border:1.5px solid var(--line);border-radius:9px;background:#fff;color:var(--ink)}
+.fcard textarea{min-height:92px;resize:vertical}
+.fcard input:focus,.fcard textarea:focus,.fcard select:focus{outline:2px solid var(--gold);outline-offset:1px;border-color:var(--gold)}
+.moodrow{display:flex;gap:8px}
+.mood{flex:1;padding:12px 6px;border:1.5px solid var(--line);border-radius:9px;background:#fff;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:.74rem;font-weight:600;color:var(--mute)}
+.mood .e{font-size:1.4rem}
+.mood.sel{border-color:var(--gold);background:var(--gold-soft);color:#6B5212}
+.submit{width:100%;margin-top:18px;padding:15px;background:var(--navy);color:#fff;border-radius:10px;font-family:'Bricolage Grotesque';font-weight:800;font-size:1.1rem;letter-spacing:.02em}
+.submit:disabled{opacity:.5}
+.msg{margin-top:12px;padding:12px;border-radius:9px;font-size:.92rem;font-weight:600;display:none}
+.msg.ok{display:block;background:#E5F2EA;color:var(--ok);border:1px solid #BBDCC8}
+.msg.err{display:block;background:#FBE9E7;color:#B3402A;border:1px solid #F0C4BC}
+
+.instrLink{display:block;margin:22px auto 0;color:var(--mute);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;padding:10px;text-align:center}
+.pinrow{display:flex;gap:8px;margin-top:8px}
+.pinrow input{flex:1}
+.pinrow button{padding:0 18px;background:var(--navy);color:#fff;border-radius:9px;font-weight:700}
+.entry{background:var(--paper);border:1.5px solid var(--line-soft);border-left:4px solid var(--navy);border-radius:9px;padding:12px 14px;margin-bottom:10px;box-shadow:var(--shadow)}
+.entry .meta{display:flex;justify-content:space-between;gap:8px;margin-bottom:3px}
+.entry .who{font-family:'Bricolage Grotesque';font-weight:700;color:var(--navy)}
+.entry .when{font-size:.76rem;color:var(--mute);white-space:nowrap}
+.entry .moodline{font-size:.86rem;margin-bottom:3px}
+.entry .q{font-size:.92rem;color:var(--ink);line-height:1.45}
+.refresh{padding:10px 18px;background:var(--navy);color:#fff;border-radius:9px;font-weight:700;margin-bottom:14px}
+
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--paper);border-top:1.5px solid var(--line);display:flex;padding-bottom:env(safe-area-inset-bottom,0px);box-shadow:0 -2px 12px rgba(14,42,71,.08)}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 2px 7px;color:var(--mute);font-size:.62rem;font-weight:700;letter-spacing:.02em;text-transform:uppercase}
+.tab .ic{font-size:1.22rem;line-height:1}
+.tab.active{color:var(--gold-deep)}
+
+.footer{text-align:center;color:var(--mute);font-size:.72rem;letter-spacing:.02em;margin-top:26px;line-height:1.7}
+.footer b{color:var(--navy);font-weight:700}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="c">Course <b>1001</b></span>
+    <span class="s" id="brandSub">Planning, Teaching &amp; Assessing Effective Lessons</span>
+  </div>
+  <div class="ctrls">
+    <div class="lang">
+      <button id="btnEN" onclick="setLang('en')">EN</button>
+      <button id="btnES" onclick="setLang('es')">ES</button>
+    </div>
+    <div class="aa">
+      <button onclick="bumpFont(-1)">A−</button>
+      <button onclick="bumpFont(1)">A+</button>
+      <button id="readBtn" onclick="toggleReadable()">Aa</button>
+    </div>
+  </div>
+</header>
+
+<!-- AGENDA -->
+<main id="view-agenda" class="view active">
+  <div class="band"><h2 id="agTitle"></h2><span class="meta" id="agMeta"></span></div>
+  <p class="lede" id="agLede"></p>
+  <div class="dayseg" id="dayseg">
+    <button data-day="1" class="on" onclick="setDay(1)">Day 1</button>
+    <button data-day="2" onclick="setDay(2)">Day 2</button>
+    <button data-day="3" onclick="setDay(3)">Day 3</button>
+    <button data-day="4" onclick="setDay(4)">Day 4</button>
+    <button data-day="5" onclick="setDay(5)">Day 5</button>
+  </div>
+  <div class="flow" id="flow"></div>
+  <button class="instrLink" id="instrLink" onclick="showView('instructor')"></button>
+  <p class="footer" id="agFoot"></p>
+</main>
+
+<!-- DETAIL -->
+<main id="view-detail" class="view">
+  <button class="backbtn" id="detailBack" onclick="showView('agenda')"></button>
+  <div id="detail"></div>
+</main>
+
+<!-- DELIVERABLES -->
+<main id="view-deliverables" class="view">
+  <div class="band"><h2 id="dvTitle"></h2><span class="meta" id="dvMeta"></span></div>
+  <p class="lede" id="dvLede"></p>
+  <div id="deliverables"></div>
+  <p class="footer footerCopy"></p>
+</main>
+
+<!-- REFERENCE -->
+<main id="view-reference" class="view">
+  <div class="band"><h2 id="rfTitle"></h2><span class="meta" id="rfMeta"></span></div>
+  <p class="lede" id="rfLede"></p>
+  <div id="reference"></div>
+  <p class="footer footerCopy"></p>
+</main>
+
+<!-- WORD WALL -->
+<main id="view-words" class="view">
+  <div class="band"><h2 id="wwTitle"></h2><span class="meta">EN ↔ ES</span></div>
+  <p class="lede" id="wwLede"></p>
+  <input class="vsearch" id="vsearch" oninput="renderVocab()">
+  <div id="vocabList"></div>
+  <p class="footer footerCopy"></p>
+</main>
+
+<!-- CHECK-IN -->
+<main id="view-checkin" class="view">
+  <div class="band"><h2 id="ciTitle"></h2><span class="meta">~1 min</span></div>
+  <p class="lede" id="ciLede"></p>
+  <div class="fcard">
+    <label id="ciNameLab"></label>
+    <input type="text" id="ciName" autocomplete="name">
+    <label id="ciDayLab"></label>
+    <select id="ciDay"><option value="1">Day 1 / Día 1</option><option value="2">Day 2 / Día 2</option><option value="3">Day 3 / Día 3</option><option value="4">Day 4 / Día 4</option><option value="5">Day 5 / Día 5</option></select>
+    <label id="ciMoodLab"></label>
+    <div class="moodrow" id="moodRow">
+      <button class="mood" data-mood="got-it"><span class="e">✅</span><span class="ml" data-m="a"></span></button>
+      <button class="mood" data-mood="mostly"><span class="e">🤔</span><span class="ml" data-m="b"></span></button>
+      <button class="mood" data-mood="need-help"><span class="e">🆘</span><span class="ml" data-m="c"></span></button>
+    </div>
+    <label id="ciQLab"></label>
+    <textarea id="ciQ"></textarea>
+    <button class="submit" id="ciSubmit" onclick="submitCheckin()"></button>
+    <div class="msg" id="ciMsg"></div>
+  </div>
+  <p class="footer footerCopy"></p>
+</main>
+
+<!-- INSTRUCTOR -->
+<main id="view-instructor" class="view">
+  <button class="backbtn" id="instrBack" onclick="showView('agenda')"></button>
+  <div class="band"><h2 id="tTitle"></h2><span class="meta">Brenda Said-Wright</span></div>
+  <div class="fcard" id="pinCard">
+    <label id="tPinLab"></label>
+    <div class="pinrow"><input type="password" id="pinInput" inputmode="numeric" maxlength="4" placeholder="••••"><button id="tUnlock" onclick="checkPin()"></button></div>
+    <div class="msg" id="pinMsg"></div>
+  </div>
+  <div id="dashWrap" style="display:none">
+    <button class="refresh" id="tRefresh" onclick="loadEntries()"></button>
+    <div id="entryList"></div>
+  </div>
+  <p class="footer footerCopy"></p>
+</main>
+
+<nav class="tabbar">
+  <button class="tab active" id="tab-agenda" onclick="showView('agenda')"><span class="ic">🗓️</span><span class="tl" data-t="agenda"></span></button>
+  <button class="tab" id="tab-deliverables" onclick="showView('deliverables')"><span class="ic">📌</span><span class="tl" data-t="deliverables"></span></button>
+  <button class="tab" id="tab-reference" onclick="showView('reference')"><span class="ic">📖</span><span class="tl" data-t="reference"></span></button>
+  <button class="tab" id="tab-words" onclick="showView('words')"><span class="ic">🔤</span><span class="tl" data-t="words"></span></button>
+  <button class="tab" id="tab-checkin" onclick="showView('checkin')"><span class="ic">✅</span><span class="tl" data-t="checkin"></span></button>
+</nav>
+
+<script>
+/* =========================================================
+   Course 1001 Companion — Day 1, 2, 3, 4 & 5 · EN/ES
+   Instructor: Brenda Said-Wright
+   © 2026 Jason Slaughter, PixelED Path, LLC
+   Firebase REST only. Node: /course1001_2026
+========================================================= */
+const FB = "https://minigolf-fd9ea-default-rtdb.firebaseio.com/course1001_2026";
+// Google Sheet check-in backend (Apps Script Web App). Replace with your /exec URL.
+// See Checkins_AppsScript.gs for the script to deploy.
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbxHBlDkFWaGg7wFWpaBmlufHRclUklX1uX6lDwGG7B2aEmjN5ogTmN3pUz6ylyYTi5q/exec";
+const PIN = "1001";
+let lang = "en";
+let currentDay = 1;
+let lastDetail = null;
+let selectedMood = null;
+let fontStep = 0;
+
+function L(x){ return (x && typeof x==="object" && ("en" in x)) ? (x[lang]||x.en) : x; }
+
+/* ---------------- UI strings ---------------- */
+const STR = {
+  brandSub:{en:"Planning, Teaching & Assessing Effective Lessons", es:"Planificar, Enseñar y Evaluar Lecciones Efectivas"},
+  agMeta:{en:"Beginning", es:"Nivel Inicial"},
+  agLede:{en:"Welcome to 1001 with Brenda Said-Wright. Pick a day, then tap any stop to see what you're doing and what you'll walk away with.",
+          es:"Bienvenido a 1001 con Brenda Said-Wright. Elige un día y toca cualquier parada para ver qué harás y qué te llevarás."},
+  instrLink:{en:"Instructor dashboard →", es:"Panel del instructor →"},
+  back:{en:"Back", es:"Volver"},
+  agFoot:{en:"© 2026 <b>Jason Slaughter</b> · PixelED Path, LLC<br>Instructor: Brenda Said-Wright · Great Lakes Educational Group",
+          es:"© 2026 <b>Jason Slaughter</b> · PixelED Path, LLC<br>Instructora: Brenda Said-Wright · Great Lakes Educational Group"},
+  footerCopy:{en:"© 2026 <b>Jason Slaughter</b> · PixelED Path, LLC", es:"© 2026 <b>Jason Slaughter</b> · PixelED Path, LLC"},
+  stopOf:{en:"Stop %1 of %2", es:"Parada %1 de %2"},
+  slideLbl:{en:"Slide", es:"Diapositiva"},
+
+  dvTitle:{en:"Your Three", es:"Tus Tres"},
+  dvMeta:{en:"Due by end of course", es:"Entrega al final del curso"},
+  dvLede:{en:"Everything this week builds toward three things you'll create and submit. Here's exactly what each one needs — and what it's graded on.",
+          es:"Todo esta semana construye hacia tres entregables que crearás y enviarás. Esto es exactamente lo que necesita cada uno — y cómo se califica."},
+  gradedOn:{en:"Graded on", es:"Se califica por"},
+
+  rfTitle:{en:"Field Guide", es:"Guía de Campo"},
+  rfMeta:{en:"Keep this handy", es:"Tenla a la mano"},
+  rfLede:{en:"The ideas behind the week — adult learners, what makes teaching effective, the learning-style toolkit, and where 1001 sits in the bigger ladder.",
+          es:"Las ideas detrás de la semana — los aprendices adultos, qué hace eficaz la enseñanza, los estilos de aprendizaje y dónde encaja 1001 en la escalera completa."},
+
+  wwTitle:{en:"Word Wall", es:"Vocabulario"},
+  wwLede:{en:"Course and teaching terms, both languages. Google Translate butchers this jargon — this list doesn't.",
+          es:"Términos del curso y de la enseñanza, en ambos idiomas. Google Translate destroza esta jerga — esta lista no."},
+  wwSearch:{en:"Search a word… / Busca una palabra…", es:"Busca una palabra… / Search a word…"},
+
+  ciTitle:{en:"Check-In", es:"Registro"},
+  ciLede:{en:"Let Brenda know how today landed. This is your exit ticket — what's exciting you, what's still fuzzy. Answer in English or Spanish.",
+          es:"Cuéntale a Brenda cómo te fue hoy. Este es tu boleto de salida — qué te entusiasma, qué sigue confuso. Responde en español o inglés."},
+  ciName:{en:"Your name", es:"Tu nombre"},
+  ciDay:{en:"Which day?", es:"¿Qué día?"},
+  ciMood:{en:"How did today go?", es:"¿Cómo te fue hoy?"},
+  moodA:{en:"Got it", es:"Entendido"},
+  moodB:{en:"Mostly", es:"Más o menos"},
+  moodC:{en:"Need help", es:"Necesito ayuda"},
+  ciQ:{en:"What excites you? What concerns you?", es:"¿Qué te entusiasma? ¿Qué te preocupa?"},
+  ciQPh:{en:"One thing you're taking away, one thing you want more of…", es:"Algo que te llevas, algo de lo que quieres más…"},
+  ciSubmit:{en:"Send check-in", es:"Enviar registro"},
+  ciOk:{en:"✔ Sent. Thanks — see you tomorrow.", es:"✔ Enviado. Gracias — nos vemos mañana."},
+  ciErr:{en:"Couldn't send. Check your connection and try again.", es:"No se pudo enviar. Revisa tu conexión e inténtalo de nuevo."},
+  ciNeedName:{en:"Add your name first.", es:"Primero escribe tu nombre."},
+  ciNeedMood:{en:"Pick how today went.", es:"Indica cómo te fue hoy."},
+
+  tTitle:{en:"Instructor", es:"Instructora"},
+  tPin:{en:"Enter PIN", es:"Ingresa el PIN"},
+  tUnlock:{en:"Unlock", es:"Abrir"},
+  tRefresh:{en:"↻ Refresh check-ins", es:"↻ Actualizar registros"},
+  tWrong:{en:"Wrong PIN.", es:"PIN incorrecto."},
+  tEmpty:{en:"No check-ins yet.", es:"Aún no hay registros."},
+  tLoading:{en:"Loading…", es:"Cargando…"},
+
+  tabs:{
+    agenda:{en:"Days", es:"Días"}, deliverables:{en:"Your Three", es:"Tus Tres"},
+    reference:{en:"Guide", es:"Guía"}, words:{en:"Words", es:"Palabras"}, checkin:{en:"Check-In", es:"Registro"}
+  },
+  moodLabels:{
+    "got-it":{en:"✅ Got it", es:"✅ Entendido"},
+    "mostly":{en:"🤔 Mostly", es:"🤔 Más o menos"},
+    "need-help":{en:"🆘 Needs help", es:"🆘 Necesita ayuda"}
+  }
+};
+
+/* ---------------- TEACH norms ---------------- */
+const TEACH = [
+  {l:"T", w:{en:"Take Chances",es:"Atrévete"}, x:{en:"1001 is new to everyone. Try new things, make mistakes, and learn from them.", es:"1001 es nuevo para todos. Prueba cosas nuevas, comete errores y aprende de ellos."}},
+  {l:"E", w:{en:"Empower Others",es:"Empodera a Otros"}, x:{en:"Listen, offer advice, affirm strengths, and help others break through barriers.", es:"Escucha, da consejos, reconoce las fortalezas y ayuda a otros a superar barreras."}},
+  {l:"A", w:{en:"Attendance",es:"Asistencia"}, x:{en:"Be fully present each day and put your attention on the task at hand.", es:"Está plenamente presente cada día y pon tu atención en la tarea actual."}},
+  {l:"C", w:{en:"Communicate",es:"Comunica"}, x:{en:"Make connections, respect other points of view, and ask questions to clarify.", es:"Haz conexiones, respeta otros puntos de vista y haz preguntas para aclarar."}},
+  {l:"H", w:{en:"Help",es:"Ayuda"}, x:{en:"This is our class. Give constructive feedback and invest in a positive room.", es:"Esta es nuestra clase. Da retroalimentación constructiva e invierte en un ambiente positivo."}}
+];
+
+/* ---------------- DAYS ---------------- */
+const DAYS = {
+1: [
+  { title:{en:"Welcome",es:"Bienvenida"}, sub:{en:"Who's in the room",es:"Quién está en el salón"}, slide:"2",
+    chunks:[
+      {h:{en:"Getting started",es:"Para empezar"}, list:[
+        {en:"Attendance",es:"Asistencia"},
+        {en:"Instructor introduction — who is Brenda Said-Wright?",es:"Presentación de la instructora — ¿quién es Brenda Said-Wright?"},
+        {en:"Student introductions — who are you?",es:"Presentación de los estudiantes — ¿quién eres?"},
+        {en:"Logistics for the week",es:"Logística de la semana"}]},
+      {note:{en:"This first half hour is about the room, not the content. Names, faces, and why everyone's here.",es:"Esta primera media hora es sobre el grupo, no el contenido. Nombres, caras y por qué cada quien está aquí."}}
+    ]},
+  { title:{en:"Who Are You?",es:"¿Quién Eres?"}, sub:{en:"Quick round-robin",es:"Ronda rápida"}, slide:"4",
+    chunks:[{h:{en:"Tell the room three things",es:"Cuéntale al grupo tres cosas"}, list:[
+      {en:"Who are you?",es:"¿Quién eres?"},{en:"Where are you from?",es:"¿De dónde eres?"},{en:"What is your job title?",es:"¿Cuál es tu puesto de trabajo?"}]}]},
+  { title:{en:"Housekeeping",es:"Información General"}, sub:{en:"The practical stuff",es:"Lo práctico"}, slide:"5",
+    chunks:[{h:{en:"Logistics",es:"Logística"}, list:[
+      {en:"Class times",es:"Horarios de clase"},{en:"Scheduled breaks",es:"Descansos programados"},{en:"Restrooms",es:"Baños"},
+      {en:"No smoking on campus",es:"Prohibido fumar en el campus"},{en:"Name tags",es:"Credenciales con tu nombre"},{en:"Coursebooks",es:"Libros del curso"},
+      {en:"Gmail — share folders while student surveys are completed",es:"Gmail — comparte carpetas mientras se completan las encuestas"}]}]},
+  { title:{en:"Safety Procedures",es:"Procedimientos de Seguridad"}, sub:{en:"Emergency 911 · Campus 3411",es:"Emergencia 911 · Campus 3411"}, slide:"6–7",
+    chunks:[
+      {h:{en:"Call 911 immediately for",es:"Llama al 911 de inmediato si hay"}, list:[
+        {en:"An unresponsive person",es:"Una persona que no responde"},{en:"Chest pains or difficulty breathing",es:"Dolor de pecho o dificultad para respirar"},
+        {en:"Uncontrolled bleeding",es:"Sangrado incontrolable"},{en:"Possible head or spinal injury",es:"Posible lesión de cabeza o columna"},
+        {en:"A possible fracture",es:"Una posible fractura"},{en:"Any situation where you're in doubt",es:"Cualquier situación en la que tengas dudas"}]},
+      {h:{en:"Then follow up",es:"Luego avisa"}, list:[
+        {en:"Campus Safety: 734-973-3411, or 3411 from a campus phone",es:"Seguridad del Campus: 734-973-3411, o 3411 desde un teléfono del campus"},
+        {en:"Do not use elevators in a fire — take the stairs to the assembly point",es:"No uses elevadores en un incendio — usa las escaleras hacia el punto de reunión"}]},
+      {h:{en:"Know the six",es:"Conoce las seis"}, p:{en:"Fire · Medical · Bomb threat · Severe weather · Active shooter · Hazmat. Each has its own response — review the safety board before class starts.",es:"Incendio · Médica · Amenaza de bomba · Clima severo · Tirador activo · Materiales peligrosos. Cada una tiene su propia respuesta — revisa el tablero de seguridad antes de empezar."}},
+      {note:{en:"<b>Facilitator note:</b> these numbers are the WCC campus procedures from the deck. Swap in your own building's emergency info if you run this elsewhere.",es:"<b>Nota para el facilitador:</b> estos números son del campus WCC. Reemplázalos con la información de tu propio edificio si lo usas en otro lugar."}}
+    ]},
+  { title:{en:"Class Norms",es:"Normas de la Clase"}, sub:{en:"How we work together — TEACH",es:"Cómo trabajamos juntos — TEACH"}, teach:true, slide:"8–9",
+    chunks:[{p:{en:"1001 is new to everyone in the room. These five norms — they spell TEACH — are how we get the most out of the week. The strength of this classroom is in the collaboration of learners, not the knowledge of one expert.",es:"1001 es nuevo para todos. Estas cinco normas — forman TEACH en inglés — son cómo aprovechamos al máximo la semana. La fuerza de esta clase está en la colaboración de los que aprenden, no en el saber de un solo experto."}}]},
+  { title:{en:"Clock Partners",es:"Compañeros de Reloj"}, sub:{en:"Line up your appointments",es:"Organiza tus citas"}, slide:"10",
+    chunks:[
+      {h:{en:"Set your appointments",es:"Agenda tus citas"}, p:{en:"Find a different partner for each time on the clock and write their name in that slot. When Brenda calls a time — \u201Cmeet your 3:00 partner\u201D — you already know who to turn to.",es:"Busca un compañero distinto para cada hora del reloj y escribe su nombre en ese espacio. Cuando Brenda diga una hora — \u201Cbusca a tu compañero de las 3:00\u201D — ya sabrás a quién acudir."}},
+      {note:{en:"Your <b>3:00 partner</b> comes back later today for the Diverse Adult Learners discussion, so pick someone you'll want to talk ideas through with.",es:"Tu <b>compañero de las 3:00</b> regresa hoy para la conversación sobre Aprendices Adultos Diversos, así que elige a alguien con quien quieras intercambiar ideas."}}
+    ]},
+  { title:{en:"Day 1 Overview",es:"Resumen del Día 1"}, sub:{en:"Today you will…",es:"Hoy vas a…"}, slide:"11",
+    chunks:[{h:{en:"By the end of today you'll be able to",es:"Al terminar hoy podrás"}, list:[
+      {en:"Learn the course expectations",es:"Conocer las expectativas del curso"},{en:"Describe first-day strategies",es:"Describir estrategias para el primer día"},
+      {en:"Construct get-acquainted survey questions",es:"Construir preguntas de encuesta para conocer a tus estudiantes"},{en:"Examine diverse adult learners",es:"Examinar a los aprendices adultos diversos"}]}]},
+  { title:{en:"Classroom Jobs",es:"Roles de la Clase"}, sub:{en:"Help the class run",es:"Ayuda a que la clase funcione"}, slide:"12",
+    chunks:[
+      {h:{en:"Volunteer roles",es:"Roles voluntarios"}, list:[
+        {en:"Daily Moderator — monitors chat, admits participants, helps with breakout rooms",es:"Moderador del día — vigila el chat, admite participantes, ayuda con las salas pequeñas"},
+        {en:"Time Keeper — keeps starts, ends, and breaks on schedule",es:"Cronometrista — mantiene a tiempo inicios, finales y descansos"},
+        {en:"Attendance Aide — oversees attendance",es:"Auxiliar de asistencia — supervisa la asistencia"},
+        {en:"Technology Guru — helps with the meeting platform and Blackboard",es:"Gurú de tecnología — ayuda con la plataforma de reuniones y Blackboard"}]},
+      {note:{en:"Rename yourself with your job title after your name. These roles map to a virtual room — adapt them for in person.",es:"Cambia tu nombre para incluir tu rol. Estos roles son para un salón virtual — adáptalos para clases presenciales."}}
+    ]},
+  { title:{en:"Ice Breaker",es:"Rompehielos"}, sub:{en:"The Marshmallow Challenge",es:"El Reto del Malvavisco"}, slide:"13–15",
+    chunks:[
+      {h:{en:"The challenge is simple",es:"El reto es simple"}, p:{en:"In 18 minutes, build the tallest free-standing structure out of 20 sticks of spaghetti, 3 feet of tape, 3 feet of string, and one marshmallow. The marshmallow must be on top.",es:"En 18 minutos, construye la estructura independiente más alta con 20 espaguetis, 90 cm de cinta, 90 cm de cuerda y un malvavisco. El malvavisco debe ir arriba."}},
+      {h:{en:"The rules",es:"Las reglas"}, list:[
+        {en:"Tallest freestanding structure wins — measured from the table to the top of the marshmallow",es:"Gana la estructura independiente más alta — medida desde la mesa hasta el malvavisco"},
+        {en:"You can't move the table itself",es:"No puedes mover la mesa"},
+        {en:"The entire marshmallow goes on top — cutting or eating it disqualifies the team",es:"Todo el malvavisco va arriba — cortarlo o comerlo descalifica al equipo"},
+        {en:"Use as much or as little of the kit as you like, but the paper bag isn't part of the structure",es:"Usa tanto o tan poco del kit como quieras, pero la bolsa de papel no es parte de la estructura"},
+        {en:"Breaking the spaghetti and cutting the string or tape is allowed",es:"Se permite romper el espagueti y cortar la cuerda o la cinta"},
+        {en:"Exactly 18 minutes — hands off when time runs out",es:"Exactamente 18 minutos — manos fuera cuando se acabe el tiempo"}]},
+      {h:{en:"Why it matters",es:"Por qué importa"}, p:{en:"The debrief is the point: what did building under pressure with strangers teach you about how adults actually learn? That's the bridge into the rest of the course.",es:"La reflexión es lo importante: ¿qué te enseñó construir bajo presión con desconocidos sobre cómo aprenden los adultos? Ese es el puente hacia el resto del curso."}}
+    ]},
+  { title:{en:"Diverse Adult Learners",es:"Aprendices Adultos Diversos"}, sub:{en:"Andragogy + Spend a Buck",es:"Andragogía + Reparte un Dólar"}, slide:"20–24",
+    chunks:[
+      {h:{en:"Andragogy",es:"Andragogía"}, p:{en:"The methods and principles of adult education. From the Greek andr- (\u201Cadult\u201D) and agogos (\u201Cleader of\u201D) — so andragogy is leading adults, where pedagogy is leading children.",es:"Los métodos y principios de la educación de adultos. Del griego andr- (\u201Cadulto\u201D) y agogos (\u201Cguía de\u201D) — la andragogía es guiar adultos, mientras que la pedagogía es guiar niños."}},
+      {h:{en:"Spend a Buck",es:"Reparte un Dólar"}, p:{en:"Read \u201CUnderstanding Adult Learners\u201D & \u201CDiverse Learners: Bridging Generations\u201D (p. 23–25). Then divide one dollar across the ideas that resonate with you.",es:"Lee \u201CUnderstanding Adult Learners\u201D y \u201CDiverse Learners: Bridging Generations\u201D (p. 23–25). Luego reparte un dólar entre las ideas que más te resuenan."}},
+      {h:{en:"Talk it through with your 3:00 partner",es:"Conversa con tu compañero de las 3:00"}, list:[
+        {en:"How did you spend your $1.00?",es:"¿Cómo repartiste tu dólar?"},{en:"What does this mean for your teaching?",es:"¿Qué significa esto para tu enseñanza?"},
+        {en:"What can we do to support apprentices as adult learners?",es:"¿Cómo podemos apoyar a los aprendices como adultos que aprenden?"}]},
+      {note:{en:"Debrief takeaway: <b>never stop learning</b> — for your apprentices and for you.",es:"Conclusión: <b>nunca dejes de aprender</b> — ni tus aprendices ni tú."}}
+    ]},
+  { title:{en:"Setting the Tone",es:"Marcando el Tono"}, sub:{en:"The first day sets everything",es:"El primer día lo define todo"}, slide:"27–32",
+    chunks:[
+      {h:{en:"On the first day, think about",es:"En el primer día, piensa en"}, list:[
+        {en:"Organizing space — arrange the room to maximize learning",es:"Organizar el espacio — acomoda el salón para maximizar el aprendizaje"},
+        {en:"Managing time — be prepared, limit teacher talk, get students active",es:"Administrar el tiempo — prepárate, habla menos, pon a los estudiantes en acción"},
+        {en:"Gathering information — use a get-acquainted survey you return to all term",es:"Reunir información — usa una encuesta que puedas consultar todo el curso"},
+        {en:"Setting expectations — norms, routines, and a barrier-free climate",es:"Fijar expectativas — normas, rutinas y un ambiente sin barreras"}]},
+      {h:{en:"What's wrong with this picture?",es:"¿Qué tiene de malo esta imagen?"}, p:{en:"Scattered broken desks — or rows of silent students facing front — send a message before you say a word. A semicircle invites discussion; grouped desks help people work together.",es:"Pupitres rotos y desordenados — o filas de estudiantes en silencio mirando al frente — envían un mensaje antes de que digas una palabra. Un semicírculo invita a conversar; los pupitres agrupados ayudan a trabajar juntos."}}
+    ]},
+  { title:{en:"Create a Student Survey",es:"Crea una Encuesta"}, sub:{en:"Your first real deliverable",es:"Tu primer entregable real"}, slide:"33–36",
+    chunks:[
+      {h:{en:"Build it",es:"Constrúyela"}, list:[
+        {en:"Read \u201CPlanning Tools: Surveys\u201D",es:"Lee \u201CPlanning Tools: Surveys\u201D"},{en:"Draft a get-acquainted survey for your own class",es:"Redacta una encuesta para conocer a tu propia clase"}]},
+      {h:{en:"Name your file like this",es:"Nombra tu archivo así"}, p:{en:"FirstInitial_LastName_Student Survey — for example, B_Said-Wright_Student Survey.",es:"InicialNombre_Apellido_Student Survey — por ejemplo, B_Said-Wright_Student Survey."}}
+    ]},
+  { title:{en:"Personal Reflection",es:"Reflexión Personal"}, sub:{en:"Close the day",es:"Cierra el día"}, slide:"37",
+    chunks:[{h:{en:"Sit with these, then share with your group",es:"Piénsalas y luego compártelas con tu grupo"}, list:[
+      {en:"What does your first day of class look like?",es:"¿Cómo es tu primer día de clase?"},
+      {en:"How do you currently prepare, teach, and reflect on your lessons?",es:"¿Cómo preparas, enseñas y reflexionas hoy sobre tus lecciones?"},
+      {en:"What excites you? What concerns you?",es:"¿Qué te entusiasma? ¿Qué te preocupa?"}]}]}
+],
+2: [
+  { title:{en:"Ice Breaker: 2 Truths & a Lie",es:"Rompehielos: 2 Verdades y 1 Mentira"}, sub:{en:"Can the room spot the lie?",es:"¿Puede el grupo encontrar la mentira?"}, slide:"3–4",
+    chunks:[
+      {h:{en:"How it works",es:"Cómo funciona"}, p:{en:"Tell the room three statements about yourself — two true, one false. Everyone guesses which one is the lie.",es:"Di al grupo tres afirmaciones sobre ti — dos verdaderas, una falsa. Todos adivinan cuál es la mentira."}},
+      {h:{en:"Brenda's example",es:"El ejemplo de Brenda"}, list:[
+        {en:"I was diagnosed with rheumatoid arthritis at age twelve.",es:"Me diagnosticaron artritis reumatoide a los doce años."},
+        {en:"I've run two half marathons and a full marathon.",es:"He corrido dos medias maratones y una maratón completa."},
+        {en:"When I was 12, I was part of a high-speed chase.",es:"Cuando tenía 12, estuve en una persecución a alta velocidad."}]}
+    ]},
+  { title:{en:"Growth Mindset",es:"Mentalidad de Crecimiento"}, sub:{en:"My only competitor is yesterday's me",es:"Mi único rival es el de ayer"}, slide:"2, 5",
+    chunks:[
+      {p:{en:"\u201CMy only competitor is the person I was yesterday.\u201D Growth mindset is the belief that ability grows with effort and practice — the opposite of a fixed mindset.",es:"\u201CMi único competidor es la persona que fui ayer.\u201D La mentalidad de crecimiento es creer que la habilidad crece con esfuerzo y práctica — lo opuesto a una mentalidad fija."}},
+      {h:{en:"Why it matters for the trades",es:"Por qué importa en los oficios"}, p:{en:"Praising effort and progress — not just \u201Cbeing a natural\u201D — is what keeps apprentices pushing through the hard parts of the trade.",es:"Elogiar el esfuerzo y el progreso — no solo el \u201Ctalento natural\u201D — es lo que mantiene a los aprendices avanzando en las partes difíciles del oficio."}}
+    ]},
+  { title:{en:"Warm-Up & Survey Questions",es:"Calentamiento y Preguntas de Encuesta"}, sub:{en:"Combined years in the trade",es:"Años combinados en el oficio"}, slide:"6–9",
+    chunks:[
+      {h:{en:"Three questions to consider for your survey",es:"Tres preguntas para tu encuesta"}, list:[
+        {en:"What would you like to learn?",es:"¿Qué te gustaría aprender?"},
+        {en:"What is a teaching approach that has worked for you?",es:"¿Qué método de enseñanza te ha funcionado?"},
+        {en:"What are some potential challenges to teaching?",es:"¿Cuáles son algunos posibles retos de la enseñanza?"}]},
+      {h:{en:"Combined years in the trade",es:"Años combinados en el oficio"}, p:{en:"Add up the room's total years on the tools — it's a fast reminder of how much real experience is sitting in the class.",es:"Sumen el total de años del grupo en el oficio — es un recordatorio rápido de cuánta experiencia real hay en la clase."}}
+    ]},
+  { title:{en:"Day 2 Overview",es:"Resumen del Día 2"}, sub:{en:"Today you will…",es:"Hoy vas a…"}, slide:"10",
+    chunks:[{h:{en:"By the end of today you'll be able to",es:"Al terminar hoy podrás"}, list:[
+      {en:"Analyze the difference between teaching and learning",es:"Analizar la diferencia entre enseñar y aprender"},
+      {en:"Revise and submit your student survey",es:"Revisar y entregar tu encuesta"},
+      {en:"Create your class norms",es:"Crear tus normas de la clase"},
+      {en:"Identify learning styles and how they impact the classroom",es:"Identificar los estilos de aprendizaje y su impacto en el salón"}]}]},
+  { title:{en:"Teaching vs. Learning",es:"Enseñar vs. Aprender"}, sub:{en:"They are not the same thing",es:"No son lo mismo"}, slide:"11–15",
+    chunks:[
+      {h:{en:"Two questions to sit with",es:"Dos preguntas para reflexionar"}, list:[
+        {en:"Who are we as teachers?",es:"¿Quiénes somos como instructores?"},{en:"Who are our students as learners?",es:"¿Quiénes son nuestros estudiantes como aprendices?"}]},
+      {p:{en:"Understanding both, in depth, directly raises student learning and performance.",es:"Entender ambas, a fondo, eleva directamente el aprendizaje y el desempeño de los estudiantes."}},
+      {h:{en:"\u201CBut, did you?\u201D",es:"\u201CPero, ¿lo hizo?\u201D"}, p:{en:"\u201CI taught him to whistle.\u201D \u201CI don't hear him whistling.\u201D \u201CI said I taught him — I didn't say he learned it.\u201D Teaching and learning are not automatically the same.",es:"\u201CLe enseñé a silbar.\u201D \u201CNo lo oigo silbar.\u201D \u201CDije que le enseñé — no dije que lo aprendió.\u201D Enseñar y aprender no son automáticamente lo mismo."}},
+      {note:{en:"Activities: the Carousel and the \u201CKid Snippets: Math Class\u201D clip both make this gap impossible to miss.",es:"Actividades: el Carrusel y el video \u201CKid Snippets: Math Class\u201D dejan ver claramente esta brecha."}}
+    ]},
+  { title:{en:"What Is Learning?",es:"¿Qué Es Aprender?"}, sub:{en:"How do you know it happened?",es:"¿Cómo sabes que ocurrió?"}, slide:"16",
+    chunks:[{h:{en:"The core question",es:"La pregunta central"}, p:{en:"How do you know when an apprentice or journeyman has actually learned something new? Learning shows up as a change you can see in what they can do.",es:"¿Cómo sabes cuándo un aprendiz u oficial realmente aprendió algo nuevo? El aprendizaje se nota como un cambio visible en lo que pueden hacer."}}]},
+  { title:{en:"What Is Teaching?",es:"¿Qué Es Enseñar?"}, sub:{en:"Good vs. ineffective + Gallery Walk",es:"Buena vs. ineficaz + Recorrido"}, slide:"17–20",
+    chunks:[
+      {h:{en:"Two prompts",es:"Dos preguntas"}, list:[
+        {en:"What does good teaching look like?",es:"¿Cómo se ve la buena enseñanza?"},{en:"What does ineffective teaching look like?",es:"¿Cómo se ve la enseñanza ineficaz?"}]},
+      {h:{en:"Gallery Walk",es:"Recorrido de Galería"}, p:{en:"Walk the room and read what every other group wrote on each chart. Put a star next to the ideas you strongly agree with.",es:"Recorre el salón y lee lo que cada grupo escribió en cada cartel. Pon una estrella junto a las ideas con las que estás muy de acuerdo."}},
+      {h:{en:"Debrief",es:"Puesta en común"}, list:[
+        {en:"What did you notice?",es:"¿Qué notaste?"},{en:"What's the difference between teaching and learning?",es:"¿Cuál es la diferencia entre enseñar y aprender?"},
+        {en:"How does learning impact your planning?",es:"¿Cómo impacta el aprendizaje tu planificación?"}]}
+    ]},
+  { title:{en:"Effective Teachers",es:"Instructores Eficaces"}, sub:{en:"Building a bridge",es:"Construir un puente"}, slide:"21–23",
+    chunks:[
+      {h:{en:"Building a bridge",es:"Construir un puente"}, p:{en:"Effective instruction builds a bridge from the learner's current abilities to the desired goal.",es:"La instrucción eficaz construye un puente desde las habilidades actuales del aprendiz hasta la meta deseada."}},
+      {h:{en:"Effective teachers… (U-M School of Education)",es:"Los instructores eficaces… (Escuela de Educación U-M)"}, list:[
+        {en:"Have clear goals for students",es:"Tienen metas claras para los estudiantes"},
+        {en:"Build on students' experience",es:"Parten de la experiencia de los estudiantes"},
+        {en:"Use a variety of learning activities",es:"Usan una variedad de actividades de aprendizaje"},
+        {en:"Get students to work together",es:"Hacen que los estudiantes trabajen juntos"},
+        {en:"Give regular feedback",es:"Dan retroalimentación constante"}]}
+    ]},
+  { title:{en:"Student Survey: Peer Review",es:"Encuesta: Revisión por Pares"}, sub:{en:"Share, review, revise",es:"Comparte, revisa, mejora"}, slide:"24–27",
+    chunks:[
+      {h:{en:"Share your questions",es:"Comparte tus preguntas"}, p:{en:"Share your survey questions with your table and revise as you wish. Then trade with a partner for a peer review against the rubric.",es:"Comparte tus preguntas con tu mesa y mejóralas como quieras. Luego intercambia con un compañero para una revisión según la rúbrica."}},
+      {h:{en:"The survey is graded on",es:"La encuesta se califica por"}, list:[
+        {en:"Clarity and relevance of questions",es:"Claridad y relevancia de las preguntas"},
+        {en:"Inclusivity and awareness",es:"Inclusión y sensibilidad"},
+        {en:"Organization and flow",es:"Organización y fluidez"}]},
+      {note:{en:"Complete the top of all three rubrics now: Student Survey, Class Norms, and Lesson Plan (Name, Date Submitted, Reviewer's Name, Review Date).",es:"Completa ahora el encabezado de las tres rúbricas: Encuesta, Normas de la Clase y Plan de Lección (Nombre, Fecha de Entrega, Nombre del Revisor, Fecha de Revisión)."}}
+    ]},
+  { title:{en:"Create Your Class Norms",es:"Crea tus Normas de la Clase"}, sub:{en:"A contract with your students",es:"Un contrato con tus estudiantes"}, slide:"28–33",
+    chunks:[
+      {h:{en:"What class norms are",es:"Qué son las normas de la clase"}, list:[
+        {en:"A contract between the instructor and students",es:"Un contrato entre el instructor y los estudiantes"},
+        {en:"They outline expectations",es:"Describen las expectativas"},
+        {en:"They describe the behaviors that lead to success",es:"Describen los comportamientos que llevan al éxito"}]},
+      {h:{en:"To design yours, ask",es:"Para diseñar las tuyas, pregúntate"}, list:[
+        {en:"What's most important for my learners to know to succeed?",es:"¿Qué es lo más importante que mis aprendices deben saber para tener éxito?"},
+        {en:"What common problems have I run into with students before?",es:"¿Qué problemas comunes he tenido antes con los estudiantes?"}]},
+      {h:{en:"The norms are graded on",es:"Las normas se califican por"}, list:[
+        {en:"Accountability",es:"Responsabilidad"},{en:"Active participation",es:"Participación activa"},{en:"Clarity and organization",es:"Claridad y organización"}]},
+      {note:{en:"Name the file: B_Said-Wright_Class Norms. Do a peer reflection & revision, then submit.",es:"Nombra el archivo: B_Said-Wright_Class Norms. Haz una reflexión y revisión con un compañero, luego entrégalas."}}
+    ]},
+  { title:{en:"Learning Styles",es:"Estilos de Aprendizaje"}, sub:{en:"What kind of learner are you?",es:"¿Qué tipo de aprendiz eres?"}, slide:"34–37",
+    chunks:[
+      {h:{en:"Find out",es:"Descúbrelo"}, list:[
+        {en:"Complete and score the Learning Style Survey",es:"Completa y califica la Encuesta de Estilos de Aprendizaje"},
+        {en:"Add to the Graffiti Wall: how do you learn best?",es:"Agrega al Muro de Grafiti: ¿cómo aprendes mejor?"}]},
+      {h:{en:"Then reflect",es:"Luego reflexiona"}, list:[
+        {en:"How do you learn best? Does it surprise you?",es:"¿Cómo aprendes mejor? ¿Te sorprende?"},
+        {en:"What does this mean for your learning in the classroom?",es:"¿Qué significa esto para tu aprendizaje en el salón?"}]},
+      {note:{en:"Heads-up: the science on fixed \u201Clearning styles\u201D is debated. The real takeaway is to teach the same idea more than one way — not to label a learner.",es:"Aviso: la ciencia sobre los \u201Cestilos de aprendizaje\u201D fijos es debatida. Lo importante es enseñar la misma idea de varias maneras — no etiquetar al aprendiz."}}
+    ]},
+  { title:{en:"Learn in Different Ways",es:"Aprender de Distintas Formas"}, sub:{en:"Visual · Auditory · Hands-on",es:"Visual · Auditivo · Práctico"}, slide:"38–41",
+    chunks:[
+      {h:{en:"Strong visual learners",es:"Aprendices visuales fuertes"}, p:{en:"Learn best by drawing pictures, creating mental images, taking notes, and seeing print, diagrams, and demonstrations.",es:"Aprenden mejor dibujando, creando imágenes mentales, tomando notas y viendo textos, diagramas y demostraciones."}},
+      {h:{en:"Strong auditory learners",es:"Aprendices auditivos fuertes"}, p:{en:"Learn best by hearing explanations, talking in groups, simulating activities, and explaining the information themselves.",es:"Aprenden mejor escuchando explicaciones, hablando en grupo, simulando actividades y explicando ellos mismos la información."}},
+      {h:{en:"Strong hands-on learners",es:"Aprendices prácticos fuertes"}, p:{en:"Learn best by physically working with materials, testing ideas through trial and error, and simulating activities.",es:"Aprenden mejor trabajando físicamente con materiales, probando ideas por ensayo y error, y simulando actividades."}},
+      {note:{en:"Most people use all three — and the trades lean heavily hands-on. Build all three into your lessons.",es:"La mayoría usa las tres — y los oficios son muy prácticos. Incluye las tres en tus lecciones."}}
+    ]},
+  { title:{en:"What Does This Mean?",es:"¿Qué Significa Esto?"}, sub:{en:"Then: let's play Kahoot",es:"Luego: a jugar Kahoot"}, slide:"42–43",
+    chunks:[
+      {h:{en:"Bring it back to your own teaching",es:"Llévalo a tu propia enseñanza"}, list:[
+        {en:"What does this mean for planning your lessons?",es:"¿Qué significa esto para planificar tus lecciones?"},
+        {en:"What does this mean for the way you teach?",es:"¿Qué significa esto para tu forma de enseñar?"}]},
+      {h:{en:"Let's play!",es:"¡A jugar!"}, p:{en:"Close out Day 2 with a Kahoot to review what stuck.",es:"Cierra el Día 2 con un Kahoot para repasar lo que se quedó."}}
+    ]}
+],
+3: [
+  { title:{en:"Mindset Check",es:"Revisión de Mentalidad"}, sub:{en:"Move to the quote that resonates",es:"Ve a la cita que te resuena"}, slide:"2–4",
+    chunks:[
+      {h:{en:"Today's mindset",es:"Mentalidad de hoy"}, p:{en:"\u201CMindset is what separates the best from the rest.\u201D Before we dig into objectives and sequencing, get moving.",es:"\u201CLa mentalidad es lo que separa a los mejores del resto.\u201D Antes de entrar en objetivos y secuencias, muévete."}},
+      {h:{en:"Move to the quote that resonates with you",es:"Ve a la cita que más te resuena"}, list:[
+        {en:"\u201CThe problem is not the problem. The problem is your attitude about the problem.\u201D — Captain Jack Sparrow",es:"\u201CEl problema no es el problema. El problema es tu actitud sobre el problema.\u201D — Capitán Jack Sparrow"},
+        {en:"\u201CWhether you think you can or think you can't, you are right.\u201D — Henry Ford",es:"\u201CYa sea que pienses que puedes o que no puedes, tienes razón.\u201D — Henry Ford"},
+        {en:"\u201CAlways do what you are afraid of doing.\u201D — Ralph Waldo Emerson",es:"\u201CSiempre haz lo que temes hacer.\u201D — Ralph Waldo Emerson"},
+        {en:"\u201CAll things are difficult before they are easy.\u201D — Thomas Fuller",es:"\u201CTodas las cosas son difíciles antes de ser fáciles.\u201D — Thomas Fuller"}]},
+      {h:{en:"With your group",es:"Con tu grupo"}, list:[
+        {en:"Discuss why you chose it",es:"Conversen por qué la eligieron"},
+        {en:"Summarize your group's responses to one sentence",es:"Resuman las respuestas del grupo en una sola oración"},
+        {en:"Share out",es:"Compartan con la clase"}]}
+    ]},
+  { title:{en:"Day 3 Overview",es:"Resumen del Día 3"}, sub:{en:"Objectives, activities, sequence",es:"Objetivos, actividades, secuencia"}, slide:"5",
+    chunks:[{h:{en:"By the end of today you'll be able to",es:"Al terminar hoy podrás"}, list:[
+      {en:"Construct lesson plan learning objectives and evidence of learning",es:"Construir objetivos de aprendizaje y evidencia de aprendizaje para tu plan de lección"},
+      {en:"Design instructional activities based on the end goal",es:"Diseñar actividades de instrucción según la meta final"},
+      {en:"Create a sequence for a multi-step task",es:"Crear una secuencia para una tarea de varios pasos"}]}]},
+  { title:{en:"Writing Objectives",es:"Cómo Escribir Objetivos"}, sub:{en:"Who does what, with action verbs",es:"Quién hace qué, con verbos de acción"}, slide:"6–11",
+    chunks:[
+      {h:{en:"A sample objective",es:"Un objetivo de ejemplo"}, p:{en:"\u201CStudents will install an industrial roof system with proper layering, seam sealing, and drainage, following safety and manufacturer guidelines with 90% accuracy.\u201D",es:"\u201CLos estudiantes instalarán un sistema de techo industrial con el revestimiento adecuado, sellado de costuras y drenaje, siguiendo las normas de seguridad y del fabricante con 90% de precisión.\u201D"}},
+      {h:{en:"Who does what",es:"Quién hace qué"}, p:{en:"Describe what the student or apprentice will do — not the instructor.",es:"Describe lo que hará el estudiante o aprendiz — no el instructor."}},
+      {h:{en:"Use action verbs",es:"Usa verbos de acción"}, p:{en:"Describe what the student will do. Avoid vague verbs like know, understand, or like — they can't be observed.",es:"Describe lo que hará el estudiante. Evita verbos vagos como saber, entender o gustar — no se pueden observar."}}
+    ]},
+  { title:{en:"Objectives Must Be…",es:"Los Objetivos Deben Ser…"}, sub:{en:"Observable, with evidence",es:"Observables, con evidencia"}, slide:"12",
+    chunks:[
+      {h:{en:"Two requirements",es:"Dos requisitos"}, list:[
+        {en:"Observable — you can watch the student do it",es:"Observables — puedes ver al estudiante hacerlo"},
+        {en:"Require evidence of completion — measurable proof it happened",es:"Requieren evidencia de finalización — prueba medible de que ocurrió"}]},
+      {note:{en:"<b>Objectives</b> = what your students will be able to do. <b>Evidence of learning</b> = how you'll know they can do it.",es:"<b>Objetivos</b> = lo que tus estudiantes podrán hacer. <b>Evidencia de aprendizaje</b> = cómo sabrás que pueden hacerlo."}}
+    ]},
+  { title:{en:"Lesson Plan: Your Objectives",es:"Plan de Lección: Tus Objetivos"}, sub:{en:"Title it, then fill in the table",es:"Títulalo, luego llena la tabla"}, slide:"13–16",
+    chunks:[
+      {h:{en:"Title your lesson plan",es:"Titula tu plan de lección"}, p:{en:"FirstInitial_LastName_Lesson Plan_1001 — example: B_Said-Wright_Lesson Plan_1001",es:"InicialNombre_Apellido_Lesson Plan_1001 — ejemplo: B_Said-Wright_Lesson Plan_1001"}},
+      {h:{en:"Course information",es:"Información del curso"}, list:[
+        {en:"Date",es:"Fecha"},{en:"Your name",es:"Tu nombre"},{en:"Union local",es:"Local del sindicato"},{en:"Course title",es:"Título del curso"},{en:"Lesson title",es:"Título de la lección"}]},
+      {h:{en:"Objectives & evidence of learning",es:"Objetivos y evidencia de aprendizaje"}, p:{en:"What do you want your students to know or be able to do after this lesson? What measurable evidence will they provide to show they achieved it?",es:"¿Qué quieres que tus estudiantes sepan o puedan hacer después de esta lección? ¿Qué evidencia medible mostrará que lo lograron?"}}
+    ]},
+  { title:{en:"Write Your Own Objectives",es:"Escribe Tus Propios Objetivos"}, sub:{en:"Pick a topic, draft objectives",es:"Elige un tema, redacta objetivos"}, slide:"17",
+    chunks:[
+      {h:{en:"Get started",es:"Comienza"}, list:[
+        {en:"Get out materials for the course you will teach; select a lesson or class topic",es:"Saca los materiales del curso que enseñarás; elige una lección o tema de clase"},
+        {en:"Write objectives for the major points you want your students to learn",es:"Escribe objetivos para los puntos principales que quieres que tus estudiantes aprendan"},
+        {en:"Begin filling in the objective portion of the lesson plan",es:"Comienza a llenar la parte de objetivos de tu plan de lección"}]},
+      {note:{en:"Ask yourself: are my objectives specific and clear?",es:"Pregúntate: ¿son mis objetivos específicos y claros?"}}
+    ]},
+  { title:{en:"Self-Reflect: Checklist",es:"Autoevaluación: Lista de Verificación"}, sub:{en:"Specific? Measurable? Observable?",es:"¿Específicos? ¿Medibles? ¿Observables?"}, slide:"18",
+    chunks:[
+      {h:{en:"Check your own objectives",es:"Revisa tus propios objetivos"}, list:[
+        {en:"Are the objectives specific?",es:"¿Son específicos los objetivos?"},
+        {en:"Are the objectives measurable or observable?",es:"¿Son medibles u observables los objetivos?"}]},
+      {note:{en:"If you answered no to either, go back and add an action verb or a measurable outcome.",es:"Si respondiste que no a alguna, vuelve atrás y agrega un verbo de acción o un resultado medible."}}
+    ]},
+  { title:{en:"Critique Objectives",es:"Crítica de Objetivos"}, sub:{en:"Peer feedback with the rubric",es:"Retroalimentación de compañeros con la rúbrica"}, slide:"19",
+    chunks:[
+      {h:{en:"With your team",es:"Con tu equipo"}, list:[
+        {en:"Share your drafted objectives and evidence of learning",es:"Comparte tus objetivos y evidencia de aprendizaje"},
+        {en:"Give your teammates feedback",es:"Dale retroalimentación a tus compañeros"}]},
+      {h:{en:"Learning Objectives rubric",es:"Rúbrica de Objetivos de Aprendizaje"}, list:[
+        {en:"4 — Clear statement of what the learner will do; action verbs throughout; aligns with evidence of learning",es:"4 — Declaración clara de lo que hará el aprendiz; verbos de acción en todo; alineado con la evidencia de aprendizaje"},
+        {en:"3 — Clear statement; action verbs used throughout",es:"3 — Declaración clara; verbos de acción en todo"},
+        {en:"2 — Clear statement, but doesn't use action words",es:"2 — Declaración clara, pero sin verbos de acción"},
+        {en:"1 — Objectives included but not clearly stated",es:"1 — Objetivos incluidos pero no claramente expresados"}]}
+    ]},
+  { title:{en:"Backward Design",es:"Diseño Inverso"}, sub:{en:"Start from the end point",es:"Comienza desde el final"}, slide:"20–21",
+    chunks:[{h:{en:"Plan from the endpoint",es:"Planifica desde el final"}, p:{en:"Start with the goal, then work backward through Steps 1–4 to get there. Backward design keeps every activity tied to what students actually need to walk away with.",es:"Comienza con la meta, luego trabaja hacia atrás por los Pasos 1–4 para llegar ahí. El diseño inverso mantiene cada actividad ligada a lo que los estudiantes realmente necesitan llevarse."}}]},
+  { title:{en:"Airplane Challenge",es:"Reto del Avión de Papel"}, sub:{en:"Foreman designs, builder builds",es:"El capataz diseña, el constructor construye"}, slide:"22–24",
+    chunks:[
+      {h:{en:"Directions",es:"Instrucciones"}, list:[
+        {en:"Work with your 9:00 partner",es:"Trabaja con tu compañero de las 9:00"},
+        {en:"Build a paper airplane in 10 minutes that flies at least 10 ft.",es:"Construye un avión de papel en 10 minutos que vuele al menos 3 metros"}]},
+      {h:{en:"Foreman",es:"Capataz"}, list:[{en:"Complete the design",es:"Completa el diseño"},{en:"Give the directions",es:"Da las instrucciones"}]},
+      {h:{en:"Builder",es:"Constructor"}, list:[{en:"Follow directions and build the plane",es:"Sigue las instrucciones y construye el avión"}]},
+      {note:{en:"10-minute timer. This is backward design in practice: the foreman starts from the goal — a plane that flies 10 ft. — and writes steps to get there.",es:"Temporizador de 10 minutos. Esto es el diseño inverso en práctica: el capataz parte de la meta — un avión que vuele 3 metros — y escribe los pasos para llegar ahí."}}
+    ]},
+  { title:{en:"Switch & Test",es:"Intercambia y Prueba"}, sub:{en:"Build from someone else's directions",es:"Construye con las instrucciones de otro"}, slide:"25–26",
+    chunks:[
+      {h:{en:"Directions",es:"Instrucciones"}, list:[
+        {en:"Switch instructional steps and follow another group's directions to build their plane",es:"Intercambia los pasos de instrucción y sigue las instrucciones de otro grupo para construir su avión"},
+        {en:"Test the planes",es:"Prueba los aviones"}]},
+      {note:{en:"If your plane didn't fly the way the original group intended, the directions were probably missing a step — that's the lesson. Clear, sequenced directions matter as much as the design.",es:"Si tu avión no voló como pretendía el grupo original, probablemente faltó un paso en las instrucciones — esa es la lección. Las instrucciones claras y secuenciadas importan tanto como el diseño."}}
+    ]},
+  { title:{en:"Sequencing a Task",es:"Secuenciar una Tarea"}, sub:{en:"Multistep tasks need order",es:"Las tareas de varios pasos necesitan orden"}, slide:"27–30",
+    chunks:[
+      {h:{en:"Tasks are…",es:"Las tareas son…"}, list:[
+        {en:"Multistep",es:"De varios pasos"},
+        {en:"Require knowledge, skill, and decision-making",es:"Requieren conocimiento, habilidad y toma de decisiones"}]},
+      {h:{en:"Tasks include",es:"Las tareas incluyen"}, list:[
+        {en:"What to do in an emergency",es:"Qué hacer en una emergencia"},
+        {en:"Reading blueprints",es:"Leer planos"},
+        {en:"Changing a tire",es:"Cambiar una llanta"}]},
+      {note:{en:"Some tasks need to be carried out in a specific order — get the sequence wrong and the task fails or becomes unsafe.",es:"Algunas tareas deben realizarse en un orden específico — si la secuencia está mal, la tarea falla o se vuelve insegura."}}
+    ]},
+  { title:{en:"Sequencing Activity",es:"Actividad de Secuenciación"}, sub:{en:"Order the cookie steps",es:"Ordena los pasos de las galletas"}, slide:"31–34",
+    chunks:[
+      {h:{en:"Directions",es:"Instrucciones"}, list:[
+        {en:"Break into small groups",es:"Formen grupos pequeños"},
+        {en:"Cut out one set of sequence cards",es:"Corten un set de tarjetas de secuencia"},
+        {en:"As a group, order how to bake chocolate chip cookies",es:"En grupo, ordenen cómo hornear galletas con chispas de chocolate"},
+        {en:"Be prepared to defend the order you've chosen",es:"Estén listos para defender el orden que eligieron"}]},
+      {h:{en:"Debrief",es:"Reflexión"}, list:[
+        {en:"What order did you put your cards in?",es:"¿En qué orden pusieron sus tarjetas?"},
+        {en:"Why?",es:"¿Por qué?"}]},
+      {note:{en:"Preheat → mix dry → cream butter/sugars → add vanilla & eggs → combine wet+dry → fold in chips → form dough balls → bake → cool & enjoy. Order matters — try creaming the butter after baking and see what happens.",es:"Precalienta → mezcla secos → bate mantequilla/azúcares → agrega vainilla y huevos → combina húmedo+seco → agrega chispas → forma bolas de masa → hornea → enfría y disfruta. El orden importa — intenta batir la mantequilla después de hornear y verás qué pasa."}}
+    ]},
+  { title:{en:"Exit Card",es:"Boleto de Salida"}, sub:{en:"Name + your objectives",es:"Nombre + tus objetivos"}, slide:"35",
+    chunks:[{h:{en:"Before you go",es:"Antes de irte"}, p:{en:"Write your name and your lesson plan objectives on an exit card.",es:"Escribe tu nombre y los objetivos de tu plan de lección en una tarjeta de salida."}}]}
+],
+4: [
+  { title:{en:"Mindset & Grit",es:"Mentalidad y Tenacidad"}, sub:{en:"Day 4 mindset",es:"Mentalidad del Día 4"}, slide:"2",
+    chunks:[{h:{en:"Today's mindset",es:"Mentalidad de hoy"}, p:{en:"\u201CMindset is everything. Your success begins and ends with mindset. In between it's grit that carries you through.\u201D — LeAura Alderson",es:"\u201CLa mentalidad lo es todo. Tu éxito comienza y termina con la mentalidad. En medio, es la tenacidad lo que te lleva.\u201D — LeAura Alderson"}}]},
+  { title:{en:"Tell Your Story in 5 Numbers",es:"Cuenta Tu Historia en 5 Números"}, sub:{en:"Icebreaker",es:"Rompehielos"}, slide:"3",
+    chunks:[{h:{en:"The challenge",es:"El reto"}, p:{en:"Tell your life story using only five numbers — ages, dates, counts, anything that matters to your story. Let the group guess what each number means before you explain.",es:"Cuenta tu historia de vida usando solo cinco números — edades, fechas, cantidades, lo que sea importante en tu historia. Deja que el grupo adivine qué significa cada número antes de explicarlo."}}]},
+  { title:{en:"Day 4 Overview",es:"Resumen del Día 4"}, sub:{en:"Instructional activities + peer feedback",es:"Actividades de instrucción + retroalimentación"}, slide:"4",
+    chunks:[{h:{en:"Today you will",es:"Hoy vas a"}, list:[
+      {en:"Write lesson plan instructional activities",es:"Escribir las actividades de instrucción de tu plan de lección"},
+      {en:"Provide peer feedback using the lesson plan rubric on daily objectives, evidence of learning, and instructional steps",es:"Dar retroalimentación a un compañero con la rúbrica del plan de lección sobre los objetivos, la evidencia de aprendizaje y los pasos de instrucción"}]}]},
+  { title:{en:"Plan Before You Teach",es:"Planifica Antes de Enseñar"}, sub:{en:"Objectives → steps → activities → evidence",es:"Objetivos → pasos → actividades → evidencia"}, slide:"5–6",
+    chunks:[{h:{en:"Before the lesson",es:"Antes de la lección"}, list:[
+      {en:"Choose objectives",es:"Elige objetivos"},
+      {en:"Break objectives into steps",es:"Divide los objetivos en pasos"},
+      {en:"Choose activities and materials",es:"Elige actividades y materiales"},
+      {en:"Select evidence",es:"Selecciona la evidencia"}]}]},
+  { title:{en:"When You Teach",es:"Cuando Enseñas"}, sub:{en:"Carry out, collect, check",es:"Realiza, recolecta, verifica"}, slide:"7",
+    chunks:[
+      {h:{en:"During the lesson",es:"Durante la lección"}, list:[
+        {en:"Carry out activities",es:"Realiza las actividades"},
+        {en:"Collect evidence",es:"Recolecta evidencia"},
+        {en:"Check for achievement of objectives",es:"Verifica el logro de los objetivos"}]},
+      {note:{en:"This is the loop: plan it before, run it and check it during. Your lesson plan is the bridge between the two.",es:"Este es el ciclo: planifica antes, ejecuta y verifica durante. Tu plan de lección es el puente entre ambos."}}
+    ]},
+  { title:{en:"Lesson Plan Template",es:"Plantilla del Plan de Lección"}, sub:{en:"Instructional activities and steps",es:"Actividades y pasos de instrucción"}, slide:"8",
+    chunks:[{h:{en:"Describe the instructional activities for each part of the lesson",es:"Describe las actividades de instrucción para cada parte de la lección"}, list:[
+      {en:"Instructional activities and steps",es:"Actividades y pasos de instrucción"},
+      {en:"Materials",es:"Materiales"},
+      {en:"Grouping",es:"Agrupación"},
+      {en:"Minutes",es:"Minutos"}]}]},
+  { title:{en:"How Much Detail?",es:"¿Cuánto Detalle?"}, sub:{en:"Enough for someone else to teach it",es:"Suficiente para que otro lo enseñe"}, slide:"9",
+    chunks:[
+      {h:{en:"The standard",es:"El estándar"}, p:{en:"Your instructional activities should give enough detail that someone else could use your lesson plan to teach your class.",es:"Tus actividades de instrucción deben tener suficiente detalle para que alguien más pueda usar tu plan de lección y enseñar tu clase."}},
+      {h:{en:"Review",es:"Revisa"}, list:[{en:"Sample lesson plans in the book",es:"Planes de lección de ejemplo en el libro"}]}
+    ]},
+  { title:{en:"Reflect",es:"Reflexiona"}, sub:{en:"Why detail matters",es:"Por qué importa el detalle"}, slide:"10",
+    chunks:[{h:{en:"Think about it",es:"Piénsalo"}, p:{en:"How does describing the instructional activities in detail help you prepare your lesson?",es:"¿Cómo te ayuda a preparar tu lección el describir las actividades de instrucción en detalle?"}}]},
+  { title:{en:"Build an Instructional Activity",es:"Construye una Actividad de Instrucción"}, sub:{en:"From a multi-step task to a class activity",es:"De una tarea de varios pasos a una actividad de clase"}, slide:"11",
+    chunks:[{h:{en:"Steps",es:"Pasos"}, list:[
+      {en:"Choose a multi-step task or ordered material",es:"Elige una tarea de varios pasos o material ordenado"},
+      {en:"Break the task into steps",es:"Divide la tarea en pasos"},
+      {en:"Create cards and describe the organization of the class activity (group size, time allotted, how answers are shown)",es:"Crea tarjetas y describe la organización de la actividad (tamaño de grupo, tiempo asignado, cómo se muestran las respuestas)"},
+      {en:"Be sure to address a variety of learning styles",es:"Asegúrate de atender una variedad de estilos de aprendizaje"},
+      {en:"Type the steps into your lesson plan",es:"Escribe los pasos en tu plan de lección"}]}]},
+  { title:{en:"Title Your Lesson Plan",es:"Titula Tu Plan de Lección"}, sub:{en:"Naming convention",es:"Convención de nombres"}, slide:"12",
+    chunks:[{h:{en:"File naming",es:"Nombre del archivo"}, p:{en:"FirstInitial_LastName_Lesson Plan_1001 — example: B_Said-Wright_Lesson Plan_1001",es:"InicialNombre_Apellido_Lesson Plan_1001 — ejemplo: B_Said-Wright_Lesson Plan_1001"}}]},
+  { title:{en:"Critique Instructional Steps",es:"Crítica de los Pasos de Instrucción"}, sub:{en:"Single-point rubric with a partner",es:"Rúbrica de un punto con un compañero"}, slide:"13",
+    chunks:[
+      {h:{en:"Directions",es:"Instrucciones"}, p:{en:"Switch books with your partner. Examine your peer's instructional steps for their lesson plan, noting strengths and suggestions. Evaluate each criterion's achievement level, recommend actionable improvements, then share your completed rubric and comments for a constructive conversation.",es:"Intercambia libros con tu compañero. Examina los pasos de instrucción del plan de lección de tu compañero, anotando fortalezas y sugerencias. Evalúa el nivel de logro de cada criterio, recomienda mejoras concretas, y comparte tu rúbrica y comentarios para una conversación constructiva."}},
+      {h:{en:"1001 objective",es:"Objetivo de 1001"}, p:{en:"Create a lesson plan with clear objectives, instructional steps, and assessments to ensure student learning.",es:"Crear un plan de lección con objetivos claros, pasos de instrucción y evaluaciones que asegure el aprendizaje del estudiante."}},
+      {h:{en:"Criteria",es:"Criterios"}, list:[
+        {en:"Activities provide more than 3 opportunities for active student participation",es:"Las actividades ofrecen más de 3 oportunidades de participación activa del estudiante"},
+        {en:"Sufficient detail that another instructor could teach the class and include everything you'd want taught",es:"Suficiente detalle para que otro instructor pueda enseñar la clase e incluir todo lo que querías que se enseñara"}]},
+      {note:{en:"For each criterion, note strengths and suggestions, then leave overall comments for your partner.",es:"Para cada criterio, anota fortalezas y sugerencias, luego deja comentarios generales para tu compañero."}}
+    ]},
+  { title:{en:"Please Share a Few Words",es:"Comparte Unas Palabras"}, sub:{en:"Closing reflection",es:"Reflexión de cierre"}, slide:"14",
+    chunks:[{h:{en:"Complete each sentence",es:"Completa cada oración"}, list:[
+      {en:"I came to this class on the first day expecting…",es:"Vine a esta clase el primer día esperando…"},
+      {en:"I got…",es:"Obtuve…"},
+      {en:"A thing I value from this experience is…",es:"Algo que valoro de esta experiencia es…"},
+      {en:"I wish…",es:"Desearía…"},
+      {en:"Now I need…",es:"Ahora necesito…"}]}]}
+],
+5: [
+  { title:{en:"Tournament Time!",es:"¡Hora del Torneo!"}, sub:{en:"Rock, Paper, Scissors warm-up",es:"Calentamiento de Piedra, Papel o Tijera"}, slide:"2",
+    chunks:[
+      {h:{en:"How it works",es:"Cómo funciona"}, list:[
+        {en:"Single-elimination Rock, Paper, Scissors bracket",es:"Torneo eliminatorio de Piedra, Papel o Tijera"},
+        {en:"Best two out of three per match",es:"El mejor de tres por partido"},
+        {en:"Winners advance until one champion remains",es:"Los ganadores avanzan hasta que quede un campeón"}]},
+      {note:{en:"A quick warm-up to wake everyone up for our last day together.",es:"Un calentamiento rápido para despertar a todos en nuestro último día juntos."}}
+    ]},
+  { title:{en:"Day 5 Overview",es:"Resumen del Día 5"}, sub:{en:"Assessment, reflection, and wrap-up",es:"Evaluación, reflexión y cierre"}, slide:"3",
+    chunks:[{h:{en:"Today you will",es:"Hoy vas a"}, list:[
+      {en:"Explore assessment methods: exit cards and checklists",es:"Explorar métodos de evaluación: boletos de salida y listas de verificación"},
+      {en:"Write the assessment section of your lesson plan",es:"Escribir la sección de evaluación de tu plan de lección"},
+      {en:"Interpret and reflect on your lesson plan",es:"Interpretar y reflexionar sobre tu plan de lección"},
+      {en:"Review and reflect on everything from 1001",es:"Repasar y reflexionar sobre todo lo aprendido en 1001"}]}]},
+  { title:{en:"Assessment: Exit Cards",es:"Evaluación: Boletos de Salida"}, sub:{en:"Different levels of knowledge, different ways to check it",es:"Diferentes niveles de conocimiento, diferentes formas de verificarlo"}, slide:"4–5",
+    chunks:[{h:{en:"The big idea",es:"La idea principal"}, p:{en:"There are different levels of knowledge — and different ways to assess each level. An exit card is a quick, low-stakes way to check what students actually walked away with.",es:"Hay diferentes niveles de conocimiento — y diferentes formas de evaluar cada nivel. Un boleto de salida es una forma rápida y de bajo riesgo de verificar qué se llevaron realmente los estudiantes."}}]},
+  { title:{en:"Write Exit Card Questions",es:"Escribe Preguntas de Boleto de Salida"}, sub:{en:"Based on the paper airplane procedure",es:"Basadas en el procedimiento del avión de papel"}, slide:"6–7",
+    chunks:[
+      {h:{en:"With your 9:00 partner",es:"Con tu compañero de las 9:00"}, p:{en:"Think back to the procedure you wrote for flying a paper airplane. What is most important for students to learn from that procedure?",es:"Recuerda el procedimiento que escribiste para volar tu avión de papel. ¿Qué es lo más importante que deben aprender los estudiantes de ese procedimiento?"}},
+      {h:{en:"Your turn",es:"Tu turno"}, p:{en:"Write 2 exit card questions for your students, as if you had taught them the procedure to make a paper airplane.",es:"Escribe 2 preguntas de boleto de salida para tus estudiantes, como si les hubieras enseñado el procedimiento para hacer un avión de papel."}}
+    ]},
+  { title:{en:"Assessment: Checklists",es:"Evaluación: Listas de Verificación"}, sub:{en:"Demonstrate it, then watch them try it",es:"Demuéstralo, luego observa cómo lo intentan"}, slide:"8–12",
+    chunks:[
+      {h:{en:"Student demo",es:"Demostración del estudiante"}, p:{en:"Another way to teach a multi-step task: demonstrate it, then have students try it on their own until they can perform it properly.",es:"Otra forma de enseñar una tarea de varios pasos: demuéstrala, luego deja que los estudiantes la intenten solos hasta que puedan realizarla correctamente."}},
+      {h:{en:"Checklists help students by",es:"Las listas de verificación ayudan a los estudiantes al"}, list:[
+        {en:"Clearly outlining the key steps in the multi-step task",es:"Delinear claramente los pasos clave de la tarea"},
+        {en:"Alerting students to exactly what they'll be evaluated on",es:"Avisarles exactamente sobre qué serán evaluados"}]},
+      {h:{en:"Checklists help instructors by",es:"Las listas de verificación ayudan a los instructores al"}, list:[
+        {en:"Identifying consistent, observable, and measurable evidence of learning",es:"Identificar evidencia de aprendizaje consistente, observable y medible"},
+        {en:"Providing a quick way to see which steps are still challenging and may need re-teaching",es:"Ofrecer una forma rápida de ver qué pasos siguen siendo difíciles y pueden necesitar reenseñanza"}]}
+    ]},
+  { title:{en:"Checklist Example",es:"Ejemplo de Lista de Verificación"}, sub:{en:"Cookie Baking Checklist",es:"Lista de Verificación para Hornear Galletas"}, slide:"13–14",
+    chunks:[
+      {h:{en:"Cookie Baking Steps",es:"Pasos para Hornear Galletas"}, list:[
+        {en:"1. Preheat oven",es:"1. Precalentar el horno"},
+        {en:"2. Mix dry ingredients",es:"2. Mezclar ingredientes secos"},
+        {en:"3. Cream butter and sugar",es:"3. Batir mantequilla y azúcar"},
+        {en:"4. Add vanilla and eggs",es:"4. Agregar vainilla y huevos"},
+        {en:"5. Combine wet and dry ingredients",es:"5. Combinar ingredientes húmedos y secos"},
+        {en:"6. Add chocolate chips",es:"6. Agregar chispas de chocolate"},
+        {en:"7. Form cookie dough balls",es:"7. Formar bolas de masa"},
+        {en:"8. Bake cookies",es:"8. Hornear las galletas"},
+        {en:"9. Cool and enjoy",es:"9. Enfriar y disfrutar"}]},
+      {note:{en:"Yes/No columns next to each step are what make this a checklist — simple, observable, easy to score.",es:"Las columnas Sí/No junto a cada paso son lo que hace de esto una lista de verificación — simple, observable y fácil de calificar."}}
+    ]},
+  { title:{en:"Nail Challenge — Create a Checklist",es:"Reto de los Clavos — Crea una Lista de Verificación"}, sub:{en:"Build the checklist for this exact task",es:"Crea la lista de verificación para esta tarea exacta"}, slide:"15",
+    chunks:[
+      {h:{en:"The task",es:"La tarea"}, p:{en:"All the nails have to be balanced on the head of the nail sticking out of the block of wood. All nails should stay balanced simultaneously and be freestanding — not propped up by any other material or object. The block of wood must rest square on the table.",es:"Todos los clavos deben quedar balanceados sobre la cabeza del clavo que sobresale del bloque de madera. Todos los clavos deben permanecer balanceados al mismo tiempo y deben ser independientes — sin apoyarse en ningún otro material u objeto. El bloque de madera debe quedar plano sobre la mesa."}},
+      {h:{en:"Your turn",es:"Tu turno"}, p:{en:"Write a checklist an instructor could use to verify a student completed this task correctly.",es:"Escribe una lista de verificación que un instructor pueda usar para confirmar que un estudiante completó correctamente esta tarea."}}
+    ]},
+  { title:{en:"Critique Exit Card Questions",es:"Crítica de Preguntas de Boleto de Salida"}, sub:{en:"With your 12:00 partner",es:"Con tu compañero de las 12:00"}, slide:"16",
+    chunks:[{h:{en:"Check each question",es:"Revisa cada pregunta"}, list:[
+      {en:"Provides a strong indication of whether students achieved the lesson objectives",es:"Da una indicación clara de si los estudiantes lograron los objetivos de la lección"},
+      {en:"Is aligned to the lesson objectives",es:"Está alineada con los objetivos de la lección"},
+      {en:"Each objective is assessed by at least one question",es:"Cada objetivo se evalúa con al menos una pregunta"}]}]},
+  { title:{en:"Write Your Lesson Plan Assessment",es:"Escribe la Evaluación de Tu Plan de Lección"}, sub:{en:"Add an exit card or checklist to your lesson plan",es:"Agrega un boleto de salida o lista de verificación a tu plan de lección"},
+    chunks:[
+      {h:{en:"Apply it",es:"Aplícalo"}, list:[
+        {en:"Go back to the lesson plan you started on Day 3",es:"Vuelve al plan de lección que empezaste el Día 3"},
+        {en:"Choose an exit card or a checklist as your assessment method",es:"Elige un boleto de salida o una lista de verificación como tu método de evaluación"},
+        {en:"Make sure it measures every objective you wrote",es:"Asegúrate de que mida cada objetivo que escribiste"}]},
+      {note:{en:"Knowledge-heavy objectives usually fit exit cards better. Multi-step, hands-on objectives usually fit checklists better.",es:"Los objetivos centrados en conocimiento suelen ajustarse mejor a los boletos de salida. Los objetivos de varios pasos y prácticos suelen ajustarse mejor a las listas de verificación."}}
+    ]},
+  { title:{en:"The Reflective Teaching Cycle",es:"El Ciclo de Enseñanza Reflexiva"}, sub:{en:"Plan → Teach → Assess → Reflect → Apply/Revise",es:"Planifica → Enseña → Evalúa → Reflexiona → Aplica/Revisa"}, slide:"17–20",
+    chunks:[
+      {h:{en:"The cycle",es:"El ciclo"}, list:[
+        {en:"Plan — choose objectives and design the lesson",es:"Planifica — elige objetivos y diseña la lección"},
+        {en:"Teach — carry out the lesson",es:"Enseña — realiza la lección"},
+        {en:"Assess — collect evidence of learning",es:"Evalúa — recolecta evidencia de aprendizaje"},
+        {en:"Reflect — make sense of what the evidence shows",es:"Reflexiona — interpreta lo que muestra la evidencia"},
+        {en:"Apply/revise — change something and go again",es:"Aplica/revisa — cambia algo y vuelve a empezar"}]},
+      {h:{en:"Exit cards vs. student demos",es:"Boletos de salida vs. demostraciones"}, p:{en:"Student demos give you evidence of skill mastery you can see through observation. Exit cards assess knowledge, but are less valuable for measuring the kind of skill mastery you see in a demo.",es:"Las demostraciones te dan evidencia de dominio de habilidades que puedes observar. Los boletos de salida evalúan conocimiento, pero son menos útiles para medir el dominio de habilidades que se ve en una demostración."}}
+    ]},
+  { title:{en:"Analyzing Exit Cards",es:"Analizando los Boletos de Salida"}, sub:{en:"Look for patterns, then decide what's next",es:"Busca patrones, luego decide qué sigue"}, slide:"21–22",
+    chunks:[
+      {h:{en:"Look for patterns",es:"Busca patrones"}, list:[
+        {en:"Concepts that multiple learners missed",es:"Conceptos que varios aprendices no entendieron"},
+        {en:"Common misconceptions",es:"Errores conceptuales comunes"},
+        {en:"Concepts that most learners understood",es:"Conceptos que la mayoría entendió"}]},
+      {h:{en:"Then decide",es:"Luego decide"}, list:[
+        {en:"Reteach",es:"Reenseñar"},
+        {en:"Review",es:"Repasar"},
+        {en:"Provide extra help to individual students",es:"Dar ayuda adicional a estudiantes específicos"},
+        {en:"Change your instruction next time",es:"Cambiar tu instrucción la próxima vez"}]},
+      {h:{en:"Reflect on what you found",es:"Reflexiona sobre lo que encontraste"}, list:[
+        {en:"Should I teach this topic differently next time — demonstrate it, have students try it in the lab, or have them quiz each other before I test them?",es:"¿Debería enseñar este tema de otra forma la próxima vez — demostrarlo, dejar que lo practiquen en el taller, o que se examinen entre ellos antes de evaluarlos?"},
+        {en:"Should I re-teach this topic next class, or move on?",es:"¿Debería reenseñar este tema en la próxima clase, o avanzar?"},
+        {en:"Should I revisit or review this topic in future lessons?",es:"¿Debería retomar o repasar este tema en lecciones futuras?"}]}
+    ]},
+  { title:{en:"Follow the RTA Schedule",es:"Sigue el Calendario de RTA"}, sub:{en:"1001 → RTA #1 → feedback → RTA #2",es:"1001 → RTA #1 → retroalimentación → RTA #2"}, slide:"23",
+    chunks:[
+      {h:{en:"After 1001, 1002, or 1003",es:"Después de 1001, 1002 o 1003"}, list:[
+        {en:"Complete RTA #1 by October 15",es:"Completa la RTA #1 antes del 15 de octubre"},
+        {en:"Receive feedback on RTA #1",es:"Recibe retroalimentación sobre la RTA #1"},
+        {en:"Complete RTA #2 by December 1",es:"Completa la RTA #2 antes del 1 de diciembre"},
+        {en:"Receive feedback on RTA #2",es:"Recibe retroalimentación sobre la RTA #2"}]},
+      {note:{en:"Wait to start RTA #2 until you've received feedback on RTA #1.",es:"Espera a comenzar la RTA #2 hasta recibir retroalimentación sobre la RTA #1."}}
+    ]},
+  { title:{en:"Test-Prep Pong",es:"Pong de Repaso"}, sub:{en:"Review game — solo cups and a ping-pong ball",es:"Juego de repaso — vasos y una pelota de ping-pong"}, slide:"24–26",
+    chunks:[
+      {h:{en:"Set up",es:"Preparación"}, list:[
+        {en:"Each group writes 6 class review questions on slips of paper — one firm answer each",es:"Cada grupo escribe 6 preguntas de repaso en papelitos — cada una con una respuesta firme"},
+        {en:"Teams place their 6 slips into their own solo cups",es:"Los equipos colocan sus 6 papelitos en sus propios vasos"},
+        {en:"Teams pick an end of the table",es:"Los equipos eligen un extremo de la mesa"}]},
+      {h:{en:"Play",es:"Cómo se juega"}, list:[
+        {en:"Toss the ball into the opposing team's cup",es:"Lanza la pelota al vaso del equipo contrario"},
+        {en:"If it lands in, that team asks the question from the cup",es:"Si cae dentro, ese equipo hace la pregunta de ese vaso"},
+        {en:"Collaborate and answer together",es:"Colaboren y respondan juntos"},
+        {en:"Correct answer = the cup comes off the table; next team's turn",es:"Respuesta correcta = el vaso sale de la mesa; turno del siguiente equipo"},
+        {en:"First team to clear all their cups wins",es:"El primer equipo en quitar todos sus vasos gana"}]},
+      {h:{en:"Rules",es:"Reglas"}, list:[
+        {en:"Round-robin throwing — everyone takes sequential turns",es:"Lanzamiento por turnos — todos lanzan en orden"},
+        {en:"One rerack allowed",es:"Se permite un solo reacomodo"},
+        {en:"You cannot block another team's throw",es:"No puedes bloquear el lanzamiento de otro equipo"}]}
+    ]},
+  { title:{en:"Course Wrap-Up",es:"Cierre del Curso"}, sub:{en:"Snowball fight, then Menti",es:"Guerra de bolas de nieve, luego Menti"}, slide:"27–29",
+    chunks:[
+      {h:{en:"Snowball fight",es:"Guerra de bolas de nieve"}, p:{en:"Write down what you learned this week that you'll actually use in your own classroom. Crumple it up — let's have a snowball fight, then read a few out loud.",es:"Escribe lo que aprendiste esta semana que realmente usarás en tu propio salón. Arrúgalo — hagamos una guerra de bolas de nieve, luego leamos algunas en voz alta."}},
+      {h:{en:"Menti",es:"Menti"}, p:{en:"Go to www.menti.com and enter the code. Type three words that describe our class this week.",es:"Ve a www.menti.com e ingresa el código. Escribe tres palabras que describan nuestra clase esta semana."}},
+      {note:{en:"That's all, folks — congratulations on finishing Course 1001!",es:"Eso es todo, amigos — ¡felicidades por terminar el Curso 1001!"}}
+    ]}
+]
+};
+
+/* ---------------- Deliverables ---------------- */
+const DELIVERABLES = [
+  { tag:{en:"Deliverable 1 · start Day 1",es:"Entregable 1 · empieza el Día 1"}, title:{en:"Student Survey",es:"Encuesta para Estudiantes"},
+    items:[
+      {en:"A get-acquainted survey you'd actually give your own class",es:"Una encuesta para conocer a tu propia clase"},
+      {en:"Read \u201CPlanning Tools: Surveys\u201D first, then draft your own",es:"Lee \u201CPlanning Tools: Surveys\u201D primero, luego redacta la tuya"},
+      {en:"Gathers info you can return to all term long",es:"Reúne información que puedes consultar todo el curso"},
+      {en:"Name the file: FirstInitial_LastName_Student Survey",es:"Nombra el archivo: InicialNombre_Apellido_Student Survey"}],
+    graded:[{en:"Clarity & relevance",es:"Claridad y relevancia"},{en:"Inclusivity & awareness",es:"Inclusión y sensibilidad"},{en:"Organization & flow",es:"Organización y fluidez"}]},
+  { tag:{en:"Deliverable 2 · build Day 2",es:"Entregable 2 · créalas el Día 2"}, title:{en:"Class Norms",es:"Normas de la Clase"},
+    items:[
+      {en:"The ground rules for how your classroom works together",es:"Las reglas de cómo funciona tu salón en conjunto"},
+      {en:"Brenda's model is the TEACH norms — yours can be your own",es:"El modelo de Brenda son las normas TEACH — las tuyas pueden ser propias"},
+      {en:"Aim for a barrier-free, shared-accountability climate",es:"Busca un ambiente sin barreras y de responsabilidad compartida"},
+      {en:"Name the file: FirstInitial_LastName_Class Norms",es:"Nombra el archivo: InicialNombre_Apellido_Class Norms"}],
+    graded:[{en:"Accountability",es:"Responsabilidad"},{en:"Active participation",es:"Participación activa"},{en:"Clarity & organization",es:"Claridad y organización"}]},
+  { tag:{en:"Deliverable 3 · build Days 3–5",es:"Entregable 3 · créalo los Días 3–5"}, title:{en:"Lesson Plan",es:"Plan de Lección"},
+    items:[
+      {en:"A full lesson built on the UA1001 template",es:"Una lección completa con la plantilla UA1001"},
+      {en:"Clear, measurable objectives — what students will know or do",es:"Objetivos claros y medibles — qué sabrán o harán los estudiantes"},
+      {en:"Evidence of student learning for each objective",es:"Evidencia de aprendizaje para cada objetivo"},
+      {en:"The instructional steps that get them there",es:"Los pasos de instrucción que los llevan ahí"},
+      {en:"An assessment method (exit card or checklist) that measures each objective — added Day 5",es:"Un método de evaluación (boleto de salida o lista de verificación) que mida cada objetivo — agregado el Día 5"}],
+    template:[
+      [{en:"Date",es:"Fecha"},""],[{en:"Your Name",es:"Tu Nombre"},""],[{en:"Union Local",es:"Local del Sindicato"},""],
+      [{en:"Course Title",es:"Título del Curso"},""],[{en:"Lesson Title",es:"Título de la Lección"},""],
+      [{en:"Objectives — \u201CStudent will…\u201D",es:"Objetivos — \u201CEl estudiante podrá…\u201D"},{en:"Evidence of Student Learning",es:"Evidencia de Aprendizaje"}]]}
+];
+
+/* ---------------- Reference ---------------- */
+const LADDER = [
+  {no:"1001", t:{en:"Beginning",es:"Inicial"}, d:{en:"Understand diverse learners, create class norms and a student survey, teach multi-step tasks, plan a lesson, write clear objectives. (You are here.)",es:"Entender aprendices diversos, crear normas y una encuesta, enseñar tareas de varios pasos, planificar una lección, escribir objetivos claros. (Estás aquí.)"}},
+  {no:"1002", t:{en:"Intermediate",es:"Intermedio"}, d:{en:"Visual supports, organize group work, scaffold instruction, align Bloom's objectives–steps–assessment, design a lesson plan.",es:"Apoyos visuales, organizar trabajo en grupo, andamiaje, alinear objetivos–pasos–evaluación de Bloom, diseñar un plan de lección."}},
+  {no:"1003", t:{en:"Advanced",es:"Avanzado"}, d:{en:"Interactive strategies, games to review large amounts of information, build a rubric, vocabulary instruction, design a lesson plan.",es:"Estrategias interactivas, juegos para repasar mucha información, crear una rúbrica, enseñanza de vocabulario, diseñar un plan de lección."}},
+  {no:"1004", t:{en:"Course Planning & Problem Solving",es:"Planificación de Cursos y Resolución de Problemas"}, d:{en:"Plan a whole course and use a problem-solving model on problems you identify. (No RTAs.)",es:"Planificar un curso completo y usar un modelo de resolución de problemas. (Sin RTAs.)"}}
+];
+const STYLES = [
+  {h:{en:"Visual",es:"Visual"}, p:{en:"Drawing, mental images, notes, diagrams, demonstrations.",es:"Dibujar, imágenes mentales, notas, diagramas, demostraciones."}},
+  {h:{en:"Auditory",es:"Auditivo"}, p:{en:"Hearing explanations, group talk, explaining it themselves.",es:"Escuchar explicaciones, hablar en grupo, explicarlo ellos mismos."}},
+  {h:{en:"Hands-on",es:"Práctico"}, p:{en:"Working with materials, trial and error, simulations.",es:"Trabajar con materiales, ensayo y error, simulaciones."}},
+  {h:{en:"Effective teachers",es:"Instructores eficaces"}, p:{en:"Clear goals, build on experience, varied activities, teamwork, regular feedback.",es:"Metas claras, partir de la experiencia, actividades variadas, trabajo en equipo, retroalimentación."}}
+];
+const FIRSTDAY = [
+  {h:{en:"Organize space",es:"Organiza el espacio"}, p:{en:"Arrange the room to maximize learning — a semicircle for discussion, grouped desks for teamwork.",es:"Acomoda el salón para maximizar el aprendizaje — semicírculo para conversar, pupitres agrupados para trabajar en equipo."}},
+  {h:{en:"Manage time",es:"Administra el tiempo"}, p:{en:"Be prepared, limit teacher talk, get students active with icebreakers and discussion.",es:"Prepárate, habla menos, activa a los estudiantes con rompehielos y conversación."}},
+  {h:{en:"Gather information",es:"Reúne información"}, p:{en:"Use a get-acquainted survey on day one and return to it all term.",es:"Usa una encuesta el primer día y consúltala todo el curso."}},
+  {h:{en:"Set expectations",es:"Fija expectativas"}, p:{en:"Establish norms and routines that create a barrier-free, shared-accountability climate.",es:"Establece normas y rutinas para un ambiente sin barreras y de responsabilidad compartida."}}
+];
+
+/* ---------------- Word Wall ---------------- */
+const VOCAB = [
+  {c:{en:"Teaching & Learning",es:"Enseñar y Aprender"}, en:"teaching", es:"la enseñanza"},
+  {c:{en:"Teaching & Learning",es:"Enseñar y Aprender"}, en:"learning", es:"el aprendizaje"},
+  {c:{en:"Teaching & Learning",es:"Enseñar y Aprender"}, en:"effective teaching", es:"enseñanza eficaz"},
+  {c:{en:"Teaching & Learning",es:"Enseñar y Aprender"}, en:"instructor", es:"instructor / instructora"},
+  {c:{en:"Teaching & Learning",es:"Enseñar y Aprender"}, en:"apprentice", es:"aprendiz"},
+  {c:{en:"Teaching & Learning",es:"Enseñar y Aprender"}, en:"journeyman", es:"oficial"},
+  {c:{en:"Teaching & Learning",es:"Enseñar y Aprender"}, en:"andragogy", es:"andragogía (enseñar a adultos)"},
+  {c:{en:"Teaching & Learning",es:"Enseñar y Aprender"}, en:"pedagogy", es:"pedagogía (enseñar a niños)"},
+  {c:{en:"Mindset",es:"Mentalidad"}, en:"growth mindset", es:"mentalidad de crecimiento"},
+  {c:{en:"Mindset",es:"Mentalidad"}, en:"fixed mindset", es:"mentalidad fija"},
+  {c:{en:"Planning",es:"Planificación"}, en:"lesson plan", es:"plan de lección"},
+  {c:{en:"Planning",es:"Planificación"}, en:"learning objective", es:"objetivo de aprendizaje"},
+  {c:{en:"Planning",es:"Planificación"}, en:"class norms", es:"normas de la clase"},
+  {c:{en:"Planning",es:"Planificación"}, en:"student survey", es:"encuesta para estudiantes"},
+  {c:{en:"Planning",es:"Planificación"}, en:"expectations", es:"expectativas"},
+  {c:{en:"Planning",es:"Planificación"}, en:"routines", es:"rutinas"},
+  {c:{en:"Planning",es:"Planificación"}, en:"scaffolding", es:"andamiaje"},
+  {c:{en:"Assessment",es:"Evaluación"}, en:"assessment", es:"evaluación"},
+  {c:{en:"Assessment",es:"Evaluación"}, en:"rubric", es:"rúbrica"},
+  {c:{en:"Assessment",es:"Evaluación"}, en:"evidence of learning", es:"evidencia de aprendizaje"},
+  {c:{en:"Assessment",es:"Evaluación"}, en:"feedback", es:"retroalimentación"},
+  {c:{en:"Assessment",es:"Evaluación"}, en:"peer review", es:"revisión por pares"},
+  {c:{en:"Assessment",es:"Evaluación"}, en:"exit ticket / check-in", es:"boleto de salida / registro"},
+  {c:{en:"Learning Styles",es:"Estilos de Aprendizaje"}, en:"learning style", es:"estilo de aprendizaje"},
+  {c:{en:"Learning Styles",es:"Estilos de Aprendizaje"}, en:"visual learner", es:"aprendiz visual"},
+  {c:{en:"Learning Styles",es:"Estilos de Aprendizaje"}, en:"auditory learner", es:"aprendiz auditivo"},
+  {c:{en:"Learning Styles",es:"Estilos de Aprendizaje"}, en:"hands-on / kinesthetic learner", es:"aprendiz práctico / cinestésico"},
+  {c:{en:"Learning Styles",es:"Estilos de Aprendizaje"}, en:"demonstration", es:"demostración"},
+  {c:{en:"Activities",es:"Actividades"}, en:"icebreaker", es:"rompehielos"},
+  {c:{en:"Activities",es:"Actividades"}, en:"gallery walk", es:"recorrido de galería"},
+  {c:{en:"Activities",es:"Actividades"}, en:"carousel", es:"carrusel (actividad)"},
+  {c:{en:"Activities",es:"Actividades"}, en:"debrief", es:"puesta en común / reflexión final"},
+  {c:{en:"Activities",es:"Actividades"}, en:"group discussion", es:"discusión en grupo"},
+  {c:{en:"Activities",es:"Actividades"}, en:"collaboration", es:"colaboración"},
+  {c:{en:"Big Ideas",es:"Ideas Clave"}, en:"diverse learners", es:"aprendices diversos"},
+  {c:{en:"Big Ideas",es:"Ideas Clave"}, en:"building a bridge", es:"construir un puente"},
+  {c:{en:"Big Ideas",es:"Ideas Clave"}, en:"clear goals", es:"metas claras"},
+  {c:{en:"Planning",es:"Planificación"}, en:"action verb", es:"verbo de acción"},
+  {c:{en:"Planning",es:"Planificación"}, en:"observable", es:"observable"},
+  {c:{en:"Planning",es:"Planificación"}, en:"backward design", es:"diseño inverso"},
+  {c:{en:"Planning",es:"Planificación"}, en:"end goal", es:"meta final"},
+  {c:{en:"Activities",es:"Actividades"}, en:"sequencing", es:"secuenciación"},
+  {c:{en:"Activities",es:"Actividades"}, en:"multi-step task", es:"tarea de varios pasos"},
+  {c:{en:"Activities",es:"Actividades"}, en:"foreman", es:"capataz"},
+  {c:{en:"Planning",es:"Planificación"}, en:"instructional activity", es:"actividad de instrucción"},
+  {c:{en:"Planning",es:"Planificación"}, en:"instructional steps", es:"pasos de instrucción"},
+  {c:{en:"Planning",es:"Planificación"}, en:"grouping", es:"agrupación"},
+  {c:{en:"Assessment",es:"Evaluación"}, en:"single-point rubric", es:"rúbrica de un punto"},
+  {c:{en:"Mindset",es:"Mentalidad"}, en:"grit", es:"tenacidad"},
+  {c:{en:"Assessment",es:"Evaluación"}, en:"exit card", es:"boleto de salida"},
+  {c:{en:"Assessment",es:"Evaluación"}, en:"checklist", es:"lista de verificación"},
+  {c:{en:"Assessment",es:"Evaluación"}, en:"reflective teaching cycle", es:"ciclo de enseñanza reflexiva"},
+  {c:{en:"Assessment",es:"Evaluación"}, en:"RTA (Reflective Teaching Assignment)", es:"RTA (Tarea de Enseñanza Reflexiva)"},
+  {c:{en:"Assessment",es:"Evaluación"}, en:"re-teach", es:"reenseñar"}
+];
+
+/* ---------------- rendering ---------------- */
+function setLang(l){
+  lang = l;
+  document.getElementById("btnEN").classList.toggle("on", l==="en");
+  document.getElementById("btnES").classList.toggle("on", l==="es");
+  document.documentElement.lang = l;
+  applyStrings(); renderFlow(); renderDeliverables(); renderReference(); renderVocab();
+  if(lastDetail!==null) renderDetail(lastDetail);
+}
+
+function applyStrings(){
+  document.getElementById("brandSub").textContent = L(STR.brandSub);
+  document.getElementById("agTitle").textContent = (lang==="en"?"Day ":"Día ")+currentDay;
+  document.getElementById("agMeta").textContent = L(STR.agMeta);
+  document.getElementById("agLede").textContent = L(STR.agLede);
+  document.getElementById("instrLink").textContent = L(STR.instrLink);
+  document.getElementById("agFoot").innerHTML = L(STR.agFoot);
+  document.querySelectorAll(".footerCopy").forEach(el=>el.innerHTML=L(STR.footerCopy));
+  document.getElementById("detailBack").textContent = "← "+L(STR.back);
+  document.getElementById("instrBack").textContent = "← "+L(STR.back);
+  document.getElementById("dvTitle").textContent = L(STR.dvTitle);
+  document.getElementById("dvMeta").textContent = L(STR.dvMeta);
+  document.getElementById("dvLede").textContent = L(STR.dvLede);
+  document.getElementById("rfTitle").textContent = L(STR.rfTitle);
+  document.getElementById("rfMeta").textContent = L(STR.rfMeta);
+  document.getElementById("rfLede").textContent = L(STR.rfLede);
+  document.getElementById("wwTitle").textContent = L(STR.wwTitle);
+  document.getElementById("wwLede").textContent = L(STR.wwLede);
+  document.getElementById("vsearch").placeholder = L(STR.wwSearch);
+  document.getElementById("ciTitle").textContent = L(STR.ciTitle);
+  document.getElementById("ciLede").textContent = L(STR.ciLede);
+  document.getElementById("ciNameLab").textContent = L(STR.ciName);
+  document.getElementById("ciDayLab").textContent = L(STR.ciDay);
+  document.getElementById("ciMoodLab").textContent = L(STR.ciMood);
+  document.querySelector('[data-m="a"]').textContent = L(STR.moodA);
+  document.querySelector('[data-m="b"]').textContent = L(STR.moodB);
+  document.querySelector('[data-m="c"]').textContent = L(STR.moodC);
+  document.getElementById("ciQLab").textContent = L(STR.ciQ);
+  document.getElementById("ciQ").placeholder = L(STR.ciQPh);
+  document.getElementById("ciSubmit").textContent = L(STR.ciSubmit);
+  document.getElementById("tTitle").textContent = L(STR.tTitle);
+  document.getElementById("tPinLab").textContent = L(STR.tPin);
+  document.getElementById("tUnlock").textContent = L(STR.tUnlock);
+  document.getElementById("tRefresh").textContent = L(STR.tRefresh);
+  document.querySelectorAll(".tl").forEach(el=>el.textContent = L(STR.tabs[el.dataset.t]));
+}
+
+function setDay(d){
+  currentDay = d;
+  document.querySelectorAll("#dayseg button").forEach(b=>b.classList.toggle("on", +b.dataset.day===d));
+  document.getElementById("agTitle").textContent = (lang==="en"?"Day ":"Día ")+d;
+  renderFlow();
+}
+
+function renderFlow(){
+  const wrap = document.getElementById("flow");
+  wrap.innerHTML = "";
+  DAYS[currentDay].forEach((s,i)=>{
+    const b = document.createElement("button");
+    b.className = "step";
+    b.innerHTML = '<span class="seq">'+(i+1)+'</span><span class="mid"><span class="t">'+esc(L(s.title))+'</span><span class="d">'+esc(L(s.sub))+'</span></span>'+(s.slide?'<span class="sl">'+esc(L(STR.slideLbl))+' '+esc(s.slide)+'</span>':'')+'<span class="go">→</span>';
+    b.onclick = ()=>renderDetail(i);
+    wrap.appendChild(b);
+  });
+}
+
+function renderDetail(i){
+  lastDetail = i;
+  const s = DAYS[currentDay][i];
+  const stopLbl = L(STR.stopOf).replace("%1", i+1).replace("%2", DAYS[currentDay].length);
+  let h = '<div class="dhead"><button class="say" id="sayBtn" onclick="speakDetail()">🔊</button><span class="k">'+esc(stopLbl)+'</span>'+(s.slide?'<span class="sl">'+esc(L(STR.slideLbl))+' '+esc(s.slide)+'</span>':'')+'<h3>'+esc(L(s.title))+'</h3></div>';
+  if(s.teach){
+    h += '<div class="teach">';
+    TEACH.forEach(t=>{ h += '<div class="teachrow"><div class="ltr">'+t.l+'</div><div class="body"><div class="w">'+esc(L(t.w))+'</div><div class="x">'+esc(L(t.x))+'</div></div></div>'; });
+    h += '</div>';
+  }
+  (s.chunks||[]).forEach(c=>{
+    if(c.note){ h += '<div class="note">'+L(c.note)+'</div>'; return; }
+    h += '<div class="chunk">';
+    if(c.h) h += '<h4>'+esc(L(c.h))+'</h4>';
+    if(c.p) h += '<p>'+esc(L(c.p))+'</p>';
+    if(c.list){ h += '<ul>'; c.list.forEach(li=>h += '<li>'+esc(L(li))+'</li>'); h += '</ul>'; }
+    h += '</div>';
+  });
+  document.getElementById("detail").innerHTML = h;
+  detailSpeakText = buildSpeak(s);
+  showView("detail");
+}
+function buildSpeak(s){
+  let p=[L(s.title)];
+  if(s.teach) TEACH.forEach(t=>p.push(L(t.w)+". "+L(t.x)));
+  (s.chunks||[]).forEach(c=>{ if(c.note) return; if(c.h)p.push(L(c.h)); if(c.p)p.push(L(c.p)); if(c.list)c.list.forEach(li=>p.push(L(li))); });
+  return p.join(". ");
+}
+
+function renderDeliverables(){
+  const wrap = document.getElementById("deliverables");
+  wrap.innerHTML = "";
+  DELIVERABLES.forEach(d=>{
+    let h = '<div class="dcard"><span class="tag">'+esc(L(d.tag))+'</span><h3>'+esc(L(d.title))+'</h3><ul>';
+    d.items.forEach(it=>h += '<li>'+esc(L(it))+'</li>');
+    h += '</ul>';
+    if(d.graded){
+      h += '<div class="gradedon"><div class="gl">'+esc(L(STR.gradedOn))+'</div>';
+      h += d.graded.map(g=>'<span class="gi">• '+esc(L(g))+'</span>').join("");
+      h += '</div>';
+    }
+    if(d.template){
+      h += '<div class="tmpl">';
+      d.template.forEach(r=>{ h += '<div class="row"><div class="l">'+esc(L(r[0]))+'</div><div class="r">'+esc(L(r[1])||"")+'</div></div>'; });
+      h += '</div>';
+    }
+    h += '</div>';
+    wrap.insertAdjacentHTML("beforeend", h);
+  });
+}
+
+function renderReference(){
+  const wrap = document.getElementById("reference");
+  let h = '<div class="duo">'+
+    '<div class="minicard"><div class="h">'+(lang==="en"?"Andragogy":"Andragogía")+'</div><p>'+(lang==="en"?"Leading <i>adults</i> — the methods and principles of adult education.":"Guiar <i>adultos</i> — los métodos y principios de la educación de adultos.")+'</p></div>'+
+    '<div class="minicard"><div class="h">'+(lang==="en"?"Pedagogy":"Pedagogía")+'</div><p>'+(lang==="en"?"Leading <i>children</i>. Adults bring experience and motivation that change how you teach.":"Guiar <i>niños</i>. Los adultos traen experiencia y motivación que cambian cómo enseñas.")+'</p></div>'+
+  '</div>';
+  h += '<div class="band"><h2 style="font-size:1.15rem">'+(lang==="en"?"Install This App":"Instala Esta App")+'</h2><span class="meta">'+(lang==="en"?"iPhone · Android":"iPhone · Android")+'</span></div>';
+  h += '<div class="note">'+(lang==="en"?"This Companion lives in your phone's browser — no app store needed. Adding it to your home screen makes it open full-screen, like any other app, and you'll still get every update automatically.":"Este Companion vive en el navegador de tu teléfono — no necesitas una tienda de apps. Si lo agregas a tu pantalla de inicio se abre a pantalla completa, como cualquier otra app, y seguirás recibiendo cada actualización automáticamente.")+'</div>';
+  h += '<div class="duo">';
+  h += '<div class="minicard"><div class="h">📱 '+(lang==="en"?"iPhone (Safari)":"iPhone (Safari)")+'</div><p>'+(lang==="en"?"1. Open this page in <b>Safari</b> (not Chrome).<br>2. Tap the <b>Share</b> icon — the square with the arrow pointing up, in the bottom toolbar.<br>3. Scroll down and tap <b>Add to Home Screen</b>.<br>4. Tap <b>Add</b> in the top right corner.":"1. Abre esta página en <b>Safari</b> (no Chrome).<br>2. Toca el ícono de <b>Compartir</b> — el cuadro con la flecha hacia arriba, en la barra inferior.<br>3. Desplázate y toca <b>Agregar a pantalla de inicio</b>.<br>4. Toca <b>Agregar</b> en la esquina superior derecha.")+'</p></div>';
+  h += '<div class="minicard"><div class="h">🤖 '+(lang==="en"?"Android / Google Phones (Chrome)":"Android / Teléfonos Google (Chrome)")+'</div><p>'+(lang==="en"?"1. Open this page in <b>Chrome</b>.<br>2. Tap the <b>⋮</b> menu (three dots, top right).<br>3. Tap <b>Add to Home screen</b> or <b>Install app</b> — wording varies by phone.<br>4. Confirm by tapping <b>Add</b> or <b>Install</b>.":"1. Abre esta página en <b>Chrome</b>.<br>2. Toca el menú <b>⋮</b> (tres puntos, arriba a la derecha).<br>3. Toca <b>Agregar a pantalla de inicio</b> o <b>Instalar app</b> — el texto varía según el teléfono.<br>4. Confirma tocando <b>Agregar</b> o <b>Instalar</b>.")+'</p></div>';
+  h += '</div>';
+  h += '<div class="band"><h2 style="font-size:1.15rem">'+(lang==="en"?"The Training Ladder":"La Escalera de Formación")+'</h2><span class="meta">1001 → 1004</span></div>';
+  h += '<div class="ladder">';
+  LADDER.forEach(r=>{ h += '<div class="rung"><div class="no">'+esc(r.no)+'</div><div class="txt"><div class="t">'+esc(L(r.t))+'</div><div class="d">'+esc(L(r.d))+'</div></div></div>'; });
+  h += '</div>';
+  h += '<div class="note">'+(lang==="en"?"<b>RTA = Reflective Teaching Assignment.</b> After 1001–1003 you complete two RTAs each, using that course's skills in your own teaching.":"<b>RTA = Tarea de Enseñanza Reflexiva.</b> Después de 1001–1003 completas dos RTAs por curso, usando esas habilidades en tu propia enseñanza.")+'</div>';
+  h += '<div class="band"><h2 style="font-size:1.15rem">'+(lang==="en"?"Learning Styles":"Estilos de Aprendizaje")+'</h2><span class="meta">'+(lang==="en"?"3 ways + teachers":"3 formas + docentes")+'</span></div>';
+  h += '<div class="duo">';
+  STYLES.forEach(s=>{ h += '<div class="minicard"><div class="h">'+esc(L(s.h))+'</div><p>'+esc(L(s.p))+'</p></div>'; });
+  h += '</div>';
+  h += '<div class="band"><h2 style="font-size:1.15rem">'+(lang==="en"?"First-Day Playbook":"Plan del Primer Día")+'</h2><span class="meta">'+(lang==="en"?"4 moves":"4 movidas")+'</span></div>';
+  h += '<div class="duo">';
+  FIRSTDAY.forEach(s=>{ h += '<div class="minicard"><div class="h">'+esc(L(s.h))+'</div><p>'+esc(L(s.p))+'</p></div>'; });
+  h += '</div>';
+  wrap.innerHTML = h;
+}
+
+function renderVocab(){
+  const q = (document.getElementById("vsearch").value||"").toLowerCase().trim();
+  const wrap = document.getElementById("vocabList");
+  wrap.innerHTML = "";
+  VOCAB.filter(v=>!q || v.en.toLowerCase().includes(q) || v.es.toLowerCase().includes(q))
+    .forEach(v=>{ wrap.insertAdjacentHTML("beforeend",
+      '<div class="vrow"><span class="cat">'+esc(L(v.c))+'</span><span class="en">'+esc(v.en)+'</span><span class="es">'+esc(v.es)+'</span></div>'); });
+}
+
+/* ---------------- check-in ---------------- */
+document.getElementById("moodRow").addEventListener("click", e=>{
+  const btn = e.target.closest(".mood"); if(!btn) return;
+  selectedMood = btn.dataset.mood;
+  document.querySelectorAll(".mood").forEach(m=>m.classList.toggle("sel", m===btn));
+});
+async function submitCheckin(){
+  const name = document.getElementById("ciName").value.trim();
+  const day = document.getElementById("ciDay").value;
+  const q = document.getElementById("ciQ").value.trim();
+  const msg = document.getElementById("ciMsg"); msg.className = "msg";
+  if(!name){ msg.className="msg err"; msg.textContent=L(STR.ciNeedName); return; }
+  if(!selectedMood){ msg.className="msg err"; msg.textContent=L(STR.ciNeedMood); return; }
+  const btn = document.getElementById("ciSubmit"); btn.disabled = true;
+  try{
+    // text/plain avoids a CORS preflight that Apps Script Web Apps can't handle;
+    // the script itself still parses the body as JSON.
+    const res = await fetch(SHEET_URL, {method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify({name,day,mood:selectedMood,question:q,lang,ts:Date.now()})});
+    const data = await res.json();
+    if(!res.ok || data.ok===false) throw new Error(data.error||("HTTP "+res.status));
+    msg.className="msg ok"; msg.textContent=L(STR.ciOk);
+    document.getElementById("ciQ").value=""; selectedMood=null;
+    document.querySelectorAll(".mood").forEach(m=>m.classList.remove("sel"));
+  }catch(e){ msg.className="msg err"; msg.textContent=L(STR.ciErr)+" ("+e.message+")"; console.error("Check-in submit failed:", e); }
+  btn.disabled = false;
+}
+
+/* ---------------- instructor ---------------- */
+function checkPin(){
+  const v = document.getElementById("pinInput").value;
+  const msg = document.getElementById("pinMsg");
+  if(v===PIN){ document.getElementById("pinCard").style.display="none"; document.getElementById("dashWrap").style.display="block"; loadEntries(); }
+  else { msg.className="msg err"; msg.textContent=L(STR.tWrong); }
+}
+async function loadEntries(){
+  const wrap = document.getElementById("entryList");
+  wrap.innerHTML = "<p class='lede'>"+L(STR.tLoading)+"</p>";
+  try{
+    const res = await fetch(SHEET_URL); const data = await res.json();
+    wrap.innerHTML = "";
+    if(!data || !data.length){ wrap.innerHTML = "<p class='lede'>"+L(STR.tEmpty)+"</p>"; return; }
+    data.slice().sort((a,b)=>(b.ts||0)-(a.ts||0)).forEach(en=>{
+      const dt = new Date(en.ts);
+      const when = dt.toLocaleDateString()+" "+dt.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});
+      const mood = L(STR.moodLabels[en.mood]) || en.mood;
+      wrap.insertAdjacentHTML("beforeend",
+        '<div class="entry"><div class="meta"><span class="who">'+esc(en.name)+' · '+(lang==="en"?"Day ":"Día ")+esc(en.day||"")+'</span><span class="when">'+when+'</span></div>'+
+        '<div class="moodline">'+mood+'</div>'+(en.question?'<div class="q">💬 '+esc(en.question)+'</div>':'')+'</div>');
+    });
+  }catch(e){ wrap.innerHTML = "<p class='lede'>"+L(STR.ciErr)+" ("+e.message+")</p>"; console.error("Dashboard load failed:", e); }
+}
+
+/* ---------------- read aloud ---------------- */
+let detailSpeakText = "";
+function speakDetail(){
+  const btn = document.getElementById("sayBtn");
+  if(!window.speechSynthesis) return;
+  if(speechSynthesis.speaking){ speechSynthesis.cancel(); if(btn)btn.classList.remove("on"); return; }
+  const u = new SpeechSynthesisUtterance(detailSpeakText);
+  u.lang = (lang==="es")?"es-MX":"en-US"; u.rate = 1.0;
+  const voices = (speechSynthesis.getVoices()||[]);
+  const v = voices.find(v=>v.lang && v.lang.toLowerCase().startsWith(lang==="es"?"es":"en"));
+  if(v) u.voice = v;
+  u.onend = ()=>{ if(btn)btn.classList.remove("on"); };
+  speechSynthesis.speak(u); if(btn)btn.classList.add("on");
+}
+if(window.speechSynthesis) speechSynthesis.onvoiceschanged=()=>{};
+
+/* ---------------- a11y + nav ---------------- */
+function bumpFont(d){ fontStep = Math.max(-1,Math.min(3,fontStep+d)); document.documentElement.style.setProperty("--fs",(1+fontStep*0.12).toFixed(2)); }
+function toggleReadable(){ document.body.classList.toggle("readable"); document.getElementById("readBtn").classList.toggle("on"); }
+function showView(v){
+  if(window.speechSynthesis) speechSynthesis.cancel();
+  document.querySelectorAll(".view").forEach(s=>s.classList.remove("active"));
+  document.getElementById("view-"+v).classList.add("active");
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  const tab = document.getElementById("tab-"+v); if(tab) tab.classList.add("active");
+  window.scrollTo(0,0);
+}
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+
+/* ---------------- boot ---------------- */
+setLang("en"); setDay(1);
+</script>
+</body>
+</html>
